@@ -46,7 +46,7 @@ th {
 
 td {
   border: 1px solid #333;
-  width: calc(100% / 7);
+  width: 13%; /* columnas más estrechas */
   height: 50px;
   text-align: center;
   vertical-align: middle;
@@ -98,4 +98,5 @@ select.multiselect {
   font-size: 11px;
   display: none;
   z-index: 10;
+
 }
