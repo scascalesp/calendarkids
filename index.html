@@ -5,88 +5,107 @@
 <title>Calendario académico 2025-2026</title>
 <script src="jquery-3.6.0.min.js"></script>
 <style>
-  body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-  h1 {
-    font-size: 26px;
-    margin: 20px 0;
-  }
+body {
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 20px 0;
+}
+
 .calendario {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  justify-items: center;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+  gap: 10px; /* espacio pequeño entre meses */
+  justify-items: stretch; /* que los meses ocupen todo el ancho de la columna */
 }
-  .mes {
-    border: 1px solid #333;
-    background: #1c1c1c;
-    border-radius: 8px;
-    width: 220px;
-    padding: 5px;
-  }
-  .mes h2 {
-    background: #503685;
-    padding: 5px;
-    margin: 0 0 4px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-  }
-  th {
-    background: #222;
-    padding: 3px;
-  }
-  td {
-    border: 1px solid #333;
-    width: 14%;
-    height: 38px;
-    text-align: center;
-    vertical-align: top;
-    position: relative;
-  }
-  .festivo {
-    background: rgba(255, 0, 0, 0.3);
-    border-color: rgba(255, 0, 0, 0.5);
-  }
-  .add-btn {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    font-size: 10px;
-    background: #444;
-    border: none;
-    color: #fff;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-  }
-  .inicial {
-    display: inline-block;
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-size: 10px;
-    margin: 1px;
-    color: #000;
-    font-weight: bold;
-  }
-  select.multiselect {
-    position: absolute;
-    bottom: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    display: none;
-    z-index: 10;
-  }
+
+.mes {
+  border: 1px solid #333;
+  background: #1c1c1c;
+  border-radius: 8px;
+  width: 100%; /* ocupa todo el ancho de su columna */
+  padding: 5px;
+}
+
+.mes h2 {
+  background: #503685;
+  padding: 5px;
+  margin: 0 0 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px; /* ligeramente más grande */
+}
+
+th {
+  background: #222;
+  padding: 3px;
+}
+
+td {
+  border: 1px solid #333;
+  width: calc(100% / 7); /* 7 días por fila */
+  height: 50px; /* más alto para iconos */
+  text-align: center;
+  vertical-align: middle; /* centra verticalmente los iconos */
+  position: relative;
+}
+
+.festivo {
+  background: rgba(255, 0, 0, 0.3);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.add-btn {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 10px;
+  background: #444;
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.inicial {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin: 1px;
+  color: #000;
+  font-weight: bold;
+}
+
+.asignados {
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px; /* espacio entre iconos */
+}
+
+select.multiselect {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  display: none;
+  z-index: 10;
+}
 </style>
 </head>
 <body>
@@ -190,4 +209,5 @@ function actualizarDia($td, seleccionados) {
 
 </body>
 </html>
+
 
