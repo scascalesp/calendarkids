@@ -41,25 +41,22 @@ h1 {
   background: #1c1c1c;
   border-radius: 8px;
   width: 100%;       /* por defecto ocupa todo en móvil */
-  max-width: 420px;  /* límite de ancho */
   padding: 5px;
   box-shadow: 0 0 6px rgba(0,0,0,0.6);
   box-sizing: border-box;
 }
 
-/* Pantallas grandes: 3 meses por fila */
-@media(min-width: 1280px) {
+/* Tablets tipo iPad: 3 meses por fila */
+@media(min-width: 768px) and (max-width: 1279px) {
   .mes {
-    flex: 0 0 calc((100% - 48px) / 3); /* 3 meses con gap de 24px entre ellos */
-    max-width: none;
+    flex: 0 0 calc((100% - 48px) / 3); /* 3 meses con gap de 24px */
   }
 }
 
-/* Opcional: tablets, 2 meses por fila */
-@media(min-width: 768px) and (max-width: 1279px) {
+/* Pantallas grandes: 4 meses por fila */
+@media(min-width: 1280px) {
   .mes {
-    flex: 0 0 calc((100% - 24px) / 2); /* 2 meses con gap */
-    max-width: none;
+    flex: 0 0 calc((100% - 72px) / 4); /* 4 meses con gap de 24px */
   }
 }
 
@@ -175,6 +172,7 @@ select.multiselect {
 {
   width: 120px;
 }
+
 
 
 
