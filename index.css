@@ -151,3 +151,10 @@ select.multiselect {
   color: #000;
   font-weight: bold;
 }
+
+tbody, td, tfoot, th, thead, tr
+{
+   border-color: white;
+   border-width: 1px;  
+}
+
