@@ -152,9 +152,11 @@ select.multiselect {
   font-weight: bold;
 }
 
-tbody, td, tfoot, th, thead, tr
+/*tbody, td, tfoot, th, thead, tr*/
+.monthtd
 {
    border-color: white;
    border-width: 1px;  
 }
+
 
