@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>Calendario académico 2025-2026 v1.1</h1>
+<h1>Calendario académico 2025-2026 v1.2</h1>
 
 <!-- Resumen de días por persona -->
 <h2>Resumen por persona</h2>
@@ -172,9 +172,61 @@ function actualizarResumen() {
 
   $("#resumen").html(html);
 }
+
+  // ====== Guardar asignaciones a JSON ======
+$("#guardar").on("click", function() {
+  const dataStr = JSON.stringify(asignaciones, null, 2);
+  const blob = new Blob([dataStr], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "asignaciones.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// ====== Importar JSON de asignaciones ======
+$("#importar").on("click", function() {
+  $("#importarFile").click();
+});
+
+$("#importarFile").on("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const data = JSON.parse(evt.target.result);
+      asignaciones = data;
+
+      // Actualiza la vista del calendario
+      $(".mes td").each(function() {
+        const fecha = $(this).data("fecha");
+        if (fecha && asignaciones[fecha]) {
+          actualizarDia($(this), asignaciones[fecha]);
+        } else {
+          actualizarDia($(this), []);
+        }
+      });
+    } catch(err) {
+      alert("Archivo JSON inválido");
+      console.error(err);
+    }
+  };
+  reader.readAsText(file);
+});
 </script>
 
+  <!-- Botones Guardar / Importar -->
+<div style="margin:10px 0;">
+  <button id="guardar">Guardar</button>
+  <input type="file" id="importarFile" style="display:none;">
+  <button id="importar">Importar</button>
+</div>
 </body>
 </html>
+
 
 
