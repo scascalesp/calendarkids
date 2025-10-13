@@ -52,7 +52,7 @@ $(document).ready(function() {
           <div>${d}</div>
           <div class="asignados"></div>
           <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
-          <div class="multi-menu card p-2" style="display:none; position:absolute; z-index:10; background:#222;">
+          <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
             ${usuarios.map(u => `
               <div class="form-check text-start">
                 <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
@@ -190,4 +190,5 @@ $(document).ready(function() {
     reader.readAsText(file);
   });
 });
+
 
