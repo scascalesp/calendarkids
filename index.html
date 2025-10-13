@@ -20,8 +20,8 @@ h1 {
 .calendario {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columnas */
-  gap: 10px; /* espacio pequeño entre meses */
-  justify-items: stretch; /* que los meses ocupen todo el ancho de la columna */
+  gap: 20px; /* más espacio entre columnas y filas */
+  justify-items: stretch;
 }
 
 .mes {
@@ -111,7 +111,12 @@ select.multiselect {
 <body>
 
 <h1>Calendario académico 2025-2026</h1>
+
+<h2>Resumen por persona</h2>
+<div id="resumen"></div>
+
 <div id="calendario" class="calendario"></div>
+
 
 <script>
 let dias = {};
@@ -182,13 +187,13 @@ function generarCalendario(anioInicio, anioFin) {
     $select.toggle();
   });
 
-  $(".multiselect").on("change", function() {
-    const $td = $(this).closest("td");
-    const fecha = $td.data("fecha");
-    const seleccionados = $(this).val();
-    asignaciones[fecha] = seleccionados;
-    actualizarDia($td, seleccionados);
-  });
+$(".multiselect").on("change", function() {
+  const $td = $(this).closest("td");
+  const fecha = $td.data("fecha");
+  const seleccionados = $(this).val() || []; // array con todas las personas seleccionadas
+  asignaciones[fecha] = seleccionados; // ahora guarda todas
+  actualizarDia($td, seleccionados);
+});
 
   $(document).on("click", function() {
     $(".multiselect").hide();
@@ -204,10 +209,41 @@ function actualizarDia($td, seleccionados) {
       $contenedor.append(`<span class="inicial" style="background:${u.color}">${u.inicial}</span>`);
     }
   });
+
+  // Actualiza resumen
+  actualizarResumen();
 }
+
+function actualizarResumen() {
+  const resumen = {};
+  
+  // Recorre todas las asignaciones por fecha
+  for (const fecha in asignaciones) {
+    const seleccionados = asignaciones[fecha];
+    seleccionados.forEach(nombre => {
+      if (!resumen[nombre]) resumen[nombre] = 0;
+      resumen[nombre]++;
+    });
+  }
+
+  // Genera HTML para el resumen
+const html = Object.entries(resumen)
+  .map(([nombre, dias]) => {
+    const u = usuarios.find(x => x.nombre === nombre);
+    const color = u ? u.color : "#fff";
+    return `<div style="display:inline-block; margin:4px; padding:4px; background:${color}; color:#000; border-radius:4px;">
+              ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
+            </div>`;
+  })
+  .join('');
+
+  $("#resumen").html(html);
+}
+
 </script>
 
 </body>
 </html>
+
 
 
