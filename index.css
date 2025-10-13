@@ -41,9 +41,11 @@ h1 {
   border: 1px solid #333;
   background: #1c1c1c;
   border-radius: 8px;
-  width: 420px; /* un poco más estrecho */
+  width: 100%;      /* ocupa todo el contenedor, pero con límite */
+  max-width: 420px; /* no más ancho que 420px */
   padding: 5px;
   box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  box-sizing: border-box;
 }
 
 .mes h2 {
@@ -158,5 +160,6 @@ select.multiselect {
 {
   width: 120px;
 }
+
 
 
