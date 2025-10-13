@@ -4,181 +4,112 @@
 <meta charset="UTF-8">
 <title>Calendario académico 2025-2026</title>
 <script src="jquery-3.6.0.min.js"></script>
-<style>
-body {
-  background: #111;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-h1 {
-  font-size: 26px;
-  margin: 20px 0;
-}
-
-.calendario {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
-  gap: 20px; /* más espacio entre columnas y filas */
-  justify-items: stretch;
-}
-
-.mes {
-  border: 1px solid #333;
-  background: #1c1c1c;
-  border-radius: 8px;
-  width: 100%; /* ocupa todo el ancho de su columna */
-  padding: 5px;
-}
-
-.mes h2 {
-  background: #503685;
-  padding: 5px;
-  margin: 0 0 4px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px; /* ligeramente más grande */
-}
-
-th {
-  background: #222;
-  padding: 3px;
-}
-
-td {
-  border: 1px solid #333;
-  width: calc(100% / 7); /* 7 días por fila */
-  height: 50px; /* más alto para iconos */
-  text-align: center;
-  vertical-align: middle; /* centra verticalmente los iconos */
-  position: relative;
-}
-
-.festivo {
-  background: rgba(255, 0, 0, 0.3);
-  border-color: rgba(255, 0, 0, 0.5);
-}
-
-.add-btn {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  font-size: 10px;
-  background: #444;
-  border: none;
-  color: #fff;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.inicial {
-  display: inline-block;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 11px;
-  margin: 1px;
-  color: #000;
-  font-weight: bold;
-}
-
-.asignados {
-  margin-top: 4px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2px; /* espacio entre iconos */
-}
-
-select.multiselect {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  display: none;
-  z-index: 10;
-}
-</style>
+<style src="index.css"></style>
 </head>
 <body>
 
-<h1>Calendario académico 2025-2026 v1.0</h1>
+<h1>Calendario académico 2025-2026 v2.0</h1>
 
+<!-- Resumen de días por persona -->
 <h2>Resumen por persona</h2>
 <div id="resumen"></div>
 
+<!-- Contenedor del calendario -->
 <div id="calendario" class="calendario"></div>
 
-
 <script>
-let dias = {};
-let usuarios = [];
-let asignaciones = {};
+let dias = {};        // días festivos
+let usuarios = [];    // usuarios/personas
+let asignaciones = {}; // asignaciones por fecha
 
-$.when(
-  $.getJSON("holidays.json", function(data) { dias = data; }),
-  $.getJSON("users.json", function(data) { usuarios = data.usuarios; })
-).done(function() {
-  generarCalendario(2025, 2026);
-});
+// Rango del curso (puede venir de un JSON externo)
+const rango = {
+  inicio: "2025-09-01",
+  fin: "2026-08-31"
+};
 
+// Nombres de los meses
 const mesesNombres = [
   "Enero","Febrero","Marzo","Abril","Mayo","Junio",
   "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
 ];
 
-function generarCalendario(anioInicio, anioFin) {
+// Carga los datos de días festivos y usuarios
+$.when(
+  $.getJSON("holidays.json", function(data) { dias = data; }),
+  $.getJSON("users.json", function(data) { usuarios = data.usuarios; })
+).done(function() {
+  generarCalendarioRango(rango.inicio, rango.fin);
+});
+
+// =====================
+// Función principal para generar calendario dentro de un rango
+// =====================
+function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
+  const fechaInicio = new Date(fechaInicioStr);
+  const fechaFin = new Date(fechaFinStr);
   const $contenedor = $("#calendario");
   $contenedor.empty();
 
-  for (let y = anioInicio; y <= anioFin; y++) {
-    for (let m = 0; m < 12; m++) {
-      const primerDia = new Date(y, m, 1);
-      const ultimoDia = new Date(y, m + 1, 0);
-      const nombreMes = mesesNombres[m] + " " + y;
+  let y = fechaInicio.getFullYear();
+  let m = fechaInicio.getMonth();
 
-      let html = `<div class="mes"><h2>${nombreMes}</h2><table><thead><tr>
+  // Recorre mes por mes hasta llegar al mes final
+  while (y < fechaFin.getFullYear() || (y === fechaFin.getFullYear() && m <= fechaFin.getMonth())) {
+    const primerDia = new Date(y, m, 1);
+    const ultimoDia = new Date(y, m + 1, 0);
+    const nombreMes = mesesNombres[m] + " " + y;
+
+    let html = `<div class="mes"><h2>${nombreMes}</h2><table><thead><tr>
       <th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sá</th><th>Do</th>
       </tr></thead><tbody><tr>`;
 
-      let diaSemana = (primerDia.getDay() + 6) % 7;
-      for (let i = 0; i < diaSemana; i++) html += "<td></td>";
+    // Ajusta inicio de semana (lunes = 0)
+    let diaSemana = (primerDia.getDay() + 6) % 7;
+    for (let i = 0; i < diaSemana; i++) html += "<td></td>";
 
-      for (let d = 1; d <= ultimoDia.getDate(); d++) {
-        const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const festivo = dias[fecha] && (dias[fecha].festivo_estatal || dias[fecha].festivo_local);
-        html += `<td class="${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
-                    <div>${d}</div>
-                    <div class="asignados"></div>
-                    <button class="add-btn">+</button>
-                    <select multiple class="multiselect">
-                      ${usuarios.map(u => `<option value="${u.nombre}">${u.nombre}</option>`).join('')}
-                    </select>
-                 </td>`;
-        diaSemana++;
-        if (diaSemana === 7 && d < ultimoDia.getDate()) {
-          html += "</tr><tr>";
-          diaSemana = 0;
-        }
+    for (let d = 1; d <= ultimoDia.getDate(); d++) {
+      const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      const fechaObj = new Date(fecha);
+
+      // Solo pinta si está dentro del rango
+      if (fechaObj < fechaInicio || fechaObj > fechaFin) continue;
+
+      const festivo = dias[fecha] && (dias[fecha].festivo_estatal || dias[fecha].festivo_local);
+
+      html += `<td class="${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+                  <div>${d}</div>
+                  <div class="asignados"></div>
+                  <button class="add-btn">+</button>
+                  <select multiple class="multiselect">
+                    ${usuarios.map(u => `<option value="${u.nombre}">${u.nombre}</option>`).join('')}
+                  </select>
+               </td>`;
+
+      diaSemana++;
+      if (diaSemana === 7 && d < ultimoDia.getDate()) {
+        html += "</tr><tr>";
+        diaSemana = 0;
       }
-      while (diaSemana < 7 && diaSemana !== 0) {
-        html += "<td></td>";
-        diaSemana++;
-      }
-      html += "</tr></tbody></table></div>";
-      $contenedor.append(html);
     }
+
+    // Rellenar celdas vacías al final de la semana
+    while (diaSemana < 7 && diaSemana !== 0) {
+      html += "<td></td>";
+      diaSemana++;
+    }
+
+    html += "</tr></tbody></table></div>";
+    $contenedor.append(html);
+
+    // Avanza al siguiente mes
+    m++;
+    if (m > 11) { m = 0; y++; }
   }
 
-  // === Eventos ===
+  // =====================
+  // Eventos para botones y select múltiple
+  // =====================
   $(".add-btn").on("click", function(e) {
     e.stopPropagation();
     const $td = $(this).closest("td");
@@ -187,19 +118,22 @@ function generarCalendario(anioInicio, anioFin) {
     $select.toggle();
   });
 
-$(".multiselect").on("change", function() {
-  const $td = $(this).closest("td");
-  const fecha = $td.data("fecha");
-  const seleccionados = $(this).val() || []; // array con todas las personas seleccionadas
-  asignaciones[fecha] = seleccionados; // ahora guarda todas
-  actualizarDia($td, seleccionados);
-});
+  $(".multiselect").on("change", function() {
+    const $td = $(this).closest("td");
+    const fecha = $td.data("fecha");
+    const seleccionados = $(this).val() || [];
+    asignaciones[fecha] = seleccionados;
+    actualizarDia($td, seleccionados);
+  });
 
   $(document).on("click", function() {
     $(".multiselect").hide();
   });
 }
 
+// =====================
+// Actualiza el contenido de un día
+// =====================
 function actualizarDia($td, seleccionados) {
   const $contenedor = $td.find(".asignados");
   $contenedor.empty();
@@ -210,14 +144,15 @@ function actualizarDia($td, seleccionados) {
     }
   });
 
-  // Actualiza resumen
   actualizarResumen();
 }
 
+// =====================
+// Actualiza el resumen por persona
+// =====================
 function actualizarResumen() {
   const resumen = {};
-  
-  // Recorre todas las asignaciones por fecha
+
   for (const fecha in asignaciones) {
     const seleccionados = asignaciones[fecha];
     seleccionados.forEach(nombre => {
@@ -226,25 +161,18 @@ function actualizarResumen() {
     });
   }
 
-  // Genera HTML para el resumen
-const html = Object.entries(resumen)
-  .map(([nombre, dias]) => {
-    const u = usuarios.find(x => x.nombre === nombre);
-    const color = u ? u.color : "#fff";
-    return `<div style="display:inline-block; margin:4px; padding:4px; background:${color}; color:#000; border-radius:4px;">
-              ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
-            </div>`;
-  })
-  .join('');
+  const html = Object.entries(resumen)
+    .map(([nombre, dias]) => {
+      const u = usuarios.find(x => x.nombre === nombre);
+      const color = u ? u.color : "#fff";
+      return `<div style="display:inline-block; margin:4px; padding:4px; background:${color}; color:#000; border-radius:4px;">
+                ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
+              </div>`;
+    }).join('');
 
   $("#resumen").html(html);
 }
-
 </script>
 
 </body>
 </html>
-
-
-
-
