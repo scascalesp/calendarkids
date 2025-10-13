@@ -1,6 +1,7 @@
+/* ===== Estilo base ===== */
 body {
-  background: #111;
-  color: #fff;
+  background: #111 !important;
+  color: #fff !important;
   font-family: Arial, sans-serif;
   text-align: center;
 }
@@ -8,31 +9,53 @@ body {
 h1 {
   font-size: 26px;
   margin: 20px 0;
+  text-align: center;
+  color: #fff;
 }
 
-.calendario {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
-  gap: 20px; /* espacio entre meses */
-  justify-items: stretch;
+/* ===== Contenedor general ===== */
+#resumen {
+  margin: 10px auto 20px auto;
+  text-align: center;
 }
 
+/* Centra botones superiores */
+.botones-superiores {
+  margin-bottom: 15px;
+}
+
+.botones-superiores button {
+  margin: 0 4px;
+}
+
+/* ===== Calendario ===== */
+#calendario {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px; /* más espacio entre meses */
+}
+
+/* ===== Cada mes ===== */
 .mes {
   border: 1px solid #333;
   background: #1c1c1c;
   border-radius: 8px;
-  width: 430px;
+  width: 420px; /* un poco más estrecho */
   padding: 5px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.6);
 }
 
 .mes h2 {
   background: #503685;
-  padding: 5px;
-  margin: 0 0 4px;
+  padding: 6px;
+  margin: 0 0 6px;
   border-radius: 4px;
   font-size: 14px;
+  color: #fff;
 }
 
+/* ===== Tabla ===== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -42,34 +65,55 @@ table {
 th {
   background: #222;
   padding: 3px;
+  font-weight: bold;
+  text-align: center;
 }
 
 td {
   border: 1px solid #333;
   width: 13%; /* columnas más estrechas */
-  height: 50px;
+  height: 56px; /* más alto para iconos */
   text-align: center;
   vertical-align: middle;
   position: relative;
+  border-radius: 2px;
 }
 
 .festivo {
-  background: rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 0, 0.25);
   border-color: rgba(255, 0, 0, 0.5);
 }
 
+/* ===== Botón "+" ===== */
 .add-btn {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
+  bottom: 3px;
+  right: 3px;
   font-size: 10px;
-  background: #444;
-  border: none;
-  color: #fff;
+  background: #666 !important;
+  border: none !important;
+  color: #fff !important;
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
+  line-height: 0;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.add-btn:hover {
+  background: #888 !important;
+  transform: scale(1.1);
+}
+
+/* ===== Iniciales ===== */
+.asignados {
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
 }
 
 .inicial {
@@ -82,22 +126,28 @@ td {
   font-weight: bold;
 }
 
-.asignados {
-  margin-top: 4px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2px;
-}
-
+/* ===== Selector múltiple ===== */
 select.multiselect {
   position: absolute;
-  bottom: 18px;
+  bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 11px;
   display: none;
   z-index: 10;
-
+  background: #222;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 2px;
 }
 
+/* ===== Resumen por persona ===== */
+#resumen div {
+  display: inline-block;
+  margin: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #000;
+  font-weight: bold;
+}
