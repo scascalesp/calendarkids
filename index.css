@@ -30,35 +30,36 @@ h1 {
 
 /* ===== Calendario ===== */
 #calendario {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
   gap: 24px;
   padding: 10px;
+
+  /* por defecto, 1 columna (móvil) */
+  grid-template-columns: 1fr;
+}
+
+/* Tablets tipo iPad: 3 columnas */
+@media(min-width: 768px) and (max-width: 1279px) {
+  #calendario {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pantallas grandes: 4 columnas */
+@media(min-width: 1280px) {
+  #calendario {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .mes {
   border: 1px solid #333;
   background: #1c1c1c;
   border-radius: 8px;
-  width: 100%;       /* ocupa todo el ancho disponible en móvil */
   padding: 5px;
   box-shadow: 0 0 6px rgba(0,0,0,0.6);
   box-sizing: border-box;
-}
-
-/* Tablets tipo iPad: 3 meses por fila */
-@media(min-width: 768px) and (max-width: 1279px) {
-  .mes {
-    flex: 0 0 calc((100% - 48px) / 3);
-  }
-}
-
-/* Pantallas grandes: 4 meses por fila */
-@media(min-width: 1280px) {
-  .mes {
-    flex: 0 0 calc((100% - 72px) / 4);
-  }
+  width: 100%; /* ocupa el ancho de la celda del grid */
 }
 
 .mes h2 {
@@ -173,6 +174,7 @@ select.multiselect {
 {
   width: 120px;
 }
+
 
 
 
