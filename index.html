@@ -12,33 +12,33 @@
     text-align: center;
   }
   h1 {
-    font-size: 28px;
+    font-size: 26px;
     margin: 20px 0;
   }
   .calendario {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
     justify-items: center;
   }
   .mes {
-    border: 2px solid #333;
+    border: 1px solid #333;
     background: #1c1c1c;
     border-radius: 8px;
-    width: 270px;
-    padding: 8px;
+    width: 220px;
+    padding: 5px;
   }
   .mes h2 {
     background: #503685;
-    padding: 8px;
-    margin: 0 0 6px;
+    padding: 5px;
+    margin: 0 0 4px;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 14px;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 11px;
   }
   th {
     background: #222;
@@ -47,13 +47,45 @@
   td {
     border: 1px solid #333;
     width: 14%;
-    height: 30px;
+    height: 38px;
     text-align: center;
-    vertical-align: middle;
+    vertical-align: top;
+    position: relative;
   }
   .festivo {
     background: rgba(255, 0, 0, 0.3);
     border-color: rgba(255, 0, 0, 0.5);
+  }
+  .add-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 10px;
+    background: #444;
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  .inicial {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    margin: 1px;
+    color: #000;
+    font-weight: bold;
+  }
+  select.multiselect {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    display: none;
+    z-index: 10;
   }
 </style>
 </head>
@@ -63,8 +95,14 @@
 <div id="calendario" class="calendario"></div>
 
 <script>
-$.getJSON("holidays.json", function(data) {
-  dias = data;
+let dias = {};
+let usuarios = [];
+let asignaciones = {};
+
+$.when(
+  $.getJSON("holidays.json", function(data) { dias = data; }),
+  $.getJSON("users.json", function(data) { usuarios = data.usuarios; })
+).done(function() {
   generarCalendario(2025, 2026);
 });
 
@@ -73,7 +111,6 @@ const mesesNombres = [
   "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
 ];
 
-// === Generar calendario ===
 function generarCalendario(anioInicio, anioFin) {
   const $contenedor = $("#calendario");
   $contenedor.empty();
@@ -83,18 +120,25 @@ function generarCalendario(anioInicio, anioFin) {
       const primerDia = new Date(y, m, 1);
       const ultimoDia = new Date(y, m + 1, 0);
       const nombreMes = mesesNombres[m] + " " + y;
-      
+
       let html = `<div class="mes"><h2>${nombreMes}</h2><table><thead><tr>
       <th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sá</th><th>Do</th>
       </tr></thead><tbody><tr>`;
 
-      let diaSemana = (primerDia.getDay() + 6) % 7; // Lunes=0
+      let diaSemana = (primerDia.getDay() + 6) % 7;
       for (let i = 0; i < diaSemana; i++) html += "<td></td>";
 
       for (let d = 1; d <= ultimoDia.getDate(); d++) {
         const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const festivo = dias[fecha] && (dias[fecha].festivo_estatal || dias[fecha].festivo_local);
-        html += `<td class="${festivo ? 'festivo' : ''}">${d}</td>`;
+        html += `<td class="${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+                    <div>${d}</div>
+                    <div class="asignados"></div>
+                    <button class="add-btn">+</button>
+                    <select multiple class="multiselect">
+                      ${usuarios.map(u => `<option value="${u.nombre}">${u.nombre}</option>`).join('')}
+                    </select>
+                 </td>`;
         diaSemana++;
         if (diaSemana === 7 && d < ultimoDia.getDate()) {
           html += "</tr><tr>";
@@ -109,11 +153,39 @@ function generarCalendario(anioInicio, anioFin) {
       $contenedor.append(html);
     }
   }
+
+  // === Eventos ===
+  $(".add-btn").on("click", function(e) {
+    e.stopPropagation();
+    const $td = $(this).closest("td");
+    const $select = $td.find(".multiselect");
+    $(".multiselect").not($select).hide();
+    $select.toggle();
+  });
+
+  $(".multiselect").on("change", function() {
+    const $td = $(this).closest("td");
+    const fecha = $td.data("fecha");
+    const seleccionados = $(this).val();
+    asignaciones[fecha] = seleccionados;
+    actualizarDia($td, seleccionados);
+  });
+
+  $(document).on("click", function() {
+    $(".multiselect").hide();
+  });
 }
 
-$(document).ready(function() {
-  generarCalendario(2025, 2026);
-});
+function actualizarDia($td, seleccionados) {
+  const $contenedor = $td.find(".asignados");
+  $contenedor.empty();
+  seleccionados.forEach(nombre => {
+    const u = usuarios.find(x => x.nombre === nombre);
+    if (u) {
+      $contenedor.append(`<span class="inicial" style="background:${u.color}">${u.inicial}</span>`);
+    }
+  });
+}
 </script>
 
 </body>
