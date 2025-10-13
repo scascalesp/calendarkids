@@ -13,11 +13,15 @@ const mesesNombres = [
 ];
 
 $(document).ready(function() {
+  // Carga datos
   $.when(
     $.getJSON("holidays.json", data => dias = data),
     $.getJSON("users.json", data => usuarios = data.usuarios)
   ).done(() => generarCalendarioRango(rango.inicio, rango.fin));
 
+  // =====================
+  // Generar calendario completo
+  // =====================
   function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     const fechaInicio = new Date(fechaInicioStr);
     const fechaFin = new Date(fechaFinStr);
@@ -77,7 +81,11 @@ $(document).ready(function() {
       if (m > 11) { m = 0; y++; }
     }
 
+    // =====================
     // Eventos
+    // =====================
+
+    // Mostrar el menú de selección
     $(".add-btn").on("click", function(e) {
       e.stopPropagation();
       const $menu = $(this).siblings(".multi-menu");
@@ -85,11 +93,13 @@ $(document).ready(function() {
       $menu.toggle();
     });
 
+    // Botón "Hecho"
     $(".btn-hecho").on("click", function(e) {
       e.stopPropagation();
       const $menu = $(this).closest(".multi-menu");
       const $td = $menu.closest("td");
       const fecha = $td.data("fecha");
+
       const seleccionados = [];
       $menu.find(".chkUser:checked").each(function() {
         seleccionados.push($(this).val());
@@ -99,11 +109,17 @@ $(document).ready(function() {
       actualizarDia($td, seleccionados);
     });
 
-    $(document).on("click", function() {
-      $(".multi-menu").hide();
+    // Evita cerrar el menú al hacer clic dentro de él
+    $(document).on("click", function(e) {
+      if (!$(e.target).closest(".multi-menu, .add-btn").length) {
+        $(".multi-menu").hide();
+      }
     });
   }
 
+  // =====================
+  // Actualiza un día
+  // =====================
   function actualizarDia($td, seleccionados) {
     const $contenedor = $td.find(".asignados");
     $contenedor.empty();
@@ -114,6 +130,9 @@ $(document).ready(function() {
     actualizarResumen();
   }
 
+  // =====================
+  // Actualiza resumen global
+  // =====================
   function actualizarResumen() {
     const resumen = {};
     for (const fecha in asignaciones) {
@@ -134,6 +153,9 @@ $(document).ready(function() {
     $("#resumen").html(html);
   }
 
+  // =====================
+  // Guardar/Importar JSON
+  // =====================
   $("#guardar").on("click", function() {
     const dataStr = JSON.stringify(asignaciones, null, 2);
     const blob = new Blob([dataStr], {type: "application/json"});
