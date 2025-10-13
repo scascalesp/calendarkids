@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calendario académico 2025-2026</title>
+<script src="jquery-3.6.0.min.js"></script>
+<style>
+  body {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 20px 0;
+  }
+  .calendario {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+  .mes {
+    border: 2px solid #333;
+    background: #1c1c1c;
+    border-radius: 8px;
+    width: 270px;
+    padding: 8px;
+  }
+  .mes h2 {
+    background: #503685;
+    padding: 8px;
+    margin: 0 0 6px;
+    border-radius: 4px;
+    font-size: 18px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: #222;
+    padding: 3px;
+  }
+  td {
+    border: 1px solid #333;
+    width: 14%;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .festivo {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 0, 0, 0.5);
+  }
+</style>
+</head>
+<body>
+
+<h1>Calendario académico 2025-2026</h1>
+<div id="calendario" class="calendario"></div>
+
+<script>
+$.getJSON("holidays.json", function(data) {
+  dias = data;
+  generarCalendario(2025, 2026);
+});
+
+const mesesNombres = [
+  "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+  "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+];
+
+// === Generar calendario ===
+function generarCalendario(anioInicio, anioFin) {
+  const $contenedor = $("#calendario");
+  $contenedor.empty();
+
+  for (let y = anioInicio; y <= anioFin; y++) {
+    for (let m = 0; m < 12; m++) {
+      const primerDia = new Date(y, m, 1);
+      const ultimoDia = new Date(y, m + 1, 0);
+      const nombreMes = mesesNombres[m] + " " + y;
+      
+      let html = `<div class="mes"><h2>${nombreMes}</h2><table><thead><tr>
+      <th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sá</th><th>Do</th>
+      </tr></thead><tbody><tr>`;
+
+      let diaSemana = (primerDia.getDay() + 6) % 7; // Lunes=0
+      for (let i = 0; i < diaSemana; i++) html += "<td></td>";
+
+      for (let d = 1; d <= ultimoDia.getDate(); d++) {
+        const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const festivo = dias[fecha] && (dias[fecha].festivo_estatal || dias[fecha].festivo_local);
+        html += `<td class="${festivo ? 'festivo' : ''}">${d}</td>`;
+        diaSemana++;
+        if (diaSemana === 7 && d < ultimoDia.getDate()) {
+          html += "</tr><tr>";
+          diaSemana = 0;
+        }
+      }
+      while (diaSemana < 7 && diaSemana !== 0) {
+        html += "<td></td>";
+        diaSemana++;
+      }
+      html += "</tr></tbody></table></div>";
+      $contenedor.append(html);
+    }
+  }
+}
+
+$(document).ready(function() {
+  generarCalendario(2025, 2026);
+});
+</script>
+
+</body>
+</html>
