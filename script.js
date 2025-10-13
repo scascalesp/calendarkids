@@ -48,7 +48,7 @@ $(document).ready(function() {
         const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const festivo = dias[fecha] && (dias[fecha].festivo_estatal || dias[fecha].festivo_local);
 
-        html += `<td class="${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+        html += `<td class="monthtd ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
           <div>${d}</div>
           <div class="asignados"></div>
           <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
@@ -70,7 +70,7 @@ $(document).ready(function() {
       }
 
       while (diaSemana < 7 && diaSemana !== 0) {
-        html += "<td></td>";
+        html += "<td class='monthtd'></td>";
         diaSemana++;
       }
 
@@ -190,3 +190,4 @@ $(document).ready(function() {
     reader.readAsText(file);
   });
 });
+
