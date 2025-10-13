@@ -1,0 +1,101 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 20px 0;
+}
+
+.calendario {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+  gap: 20px; /* espacio entre meses */
+  justify-items: stretch;
+}
+
+.mes {
+  border: 1px solid #333;
+  background: #1c1c1c;
+  border-radius: 8px;
+  width: 100%;
+  padding: 5px;
+}
+
+.mes h2 {
+  background: #503685;
+  padding: 5px;
+  margin: 0 0 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th {
+  background: #222;
+  padding: 3px;
+}
+
+td {
+  border: 1px solid #333;
+  width: calc(100% / 7);
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+.festivo {
+  background: rgba(255, 0, 0, 0.3);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.add-btn {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 10px;
+  background: #444;
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.inicial {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin: 1px;
+  color: #000;
+  font-weight: bold;
+}
+
+.asignados {
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+select.multiselect {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  display: none;
+  z-index: 10;
+}
