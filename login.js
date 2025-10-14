@@ -1,3 +1,4 @@
+
 function onLogin(response) {
   const data = jwt_decode(response.credential);
   const email = data.email;
@@ -14,7 +15,7 @@ function onLogin(response) {
   cargarJSON(email);
 }
 
-const API_KEY = "TU_API_KEY_DE_JSONBIN"; // Consíguela en jsonbin.io
+const API_KEY = "$2a$10$xVvyPoFrdc3vTXMTamVNp.M.fJK2JwhXSSH1s5AizCX7RzCg8DNGC"; // Consíguela en jsonbin.io
 
 function guardarJSON(email, datos) {
   $.ajax({
