@@ -59,6 +59,5 @@ $(document).on("click", "#sync", function() {
   const email = localStorage.getItem("userEmail");
   if (!email) return alert("Debes iniciar sesión primero");
 
-  const datos = obtenerDatosCalendario(); // tu función que devuelve el JSON
-  guardarJSON(email, datos);
+  guardarJSON(email, asignaciones);
 });
