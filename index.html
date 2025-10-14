@@ -10,27 +10,30 @@
   
 <body>
 <!-- Login con Google -->
-<div id="login-container" style="text-align:center; margin-top:50px;">
-  <h2>Inicia sesión con Google para continuar</h2>
-  <div id="g_id_onload"
-       data-client_id="747583110467-lt8kucv2crhpaid91ad9mjjifcbilrq4.apps.googleusercontent.com"
-       data-callback="onLogin"
-       data-auto_select="true"
-       data-context="signin">
-  </div>
-  <div class="g_id_signin"
-       data-type="standard"
-       data-shape="rectangular"
-       data-theme="outline"
-       data-text="signin_with"
-       data-size="large"
-       data-logo_alignment="left">
-  </div>
-</div>
+<div id="login-card">
+    <h3 class="mb-4">Inicia sesión</h3>
 
+    <!-- Botón de Google -->
+    <div id="g_id_onload"
+       data-client_id="747583110467-lt8kucv2crhpaid91ad9mjjifcbilrq4.apps.googleusercontent.com"
+      data-callback="onLogin">
+    </div>
+
+    <div class="g_id_signin"
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="left">
+    </div>
+
+    <p class="mt-3 text-secondary">Accede con tu cuenta de Google</p>
+</div>
+  
 <!-- Contenido principal (oculto hasta login) -->
 <div id="app" style="display:none;">
-  <h1>Calendario 2025-2026 <span style="font-size: 0.5em; color: #666;">v1.0</span></h1>
+  <h1>Calendario 2025-2026 <span style="font-size: 0.5em; color: #666;">v1.1</span></h1>
 
   <div class="mb-3 d-flex justify-content-center">
     <div id="resumen"></div>
@@ -55,6 +58,7 @@
 </body>
 
 </html>
+
 
 
 
