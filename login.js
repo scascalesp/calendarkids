@@ -16,21 +16,21 @@ function onLogin(response) {
 }
 
 const API_KEY = "$2a$10$xVvyPoFrdc3vTXMTamVNp.M.fJK2JwhXSSH1s5AizCX7RzCg8DNGC"; // Consíguela en jsonbin.io
+const binId = '68eeb64e43b1c97be9682041';
 
+// Guardar/Actualizar JSON
 function guardarJSON(email, datos) {
   $.ajax({
-    url: "https://api.jsonbin.io/v3/b",
-    type: "POST",
+    url: `https://api.jsonbin.io/v3/b/${binId}`,
+    type: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-Master-Key": API_KEY,
-      "X-Bin-Name": email
+      "X-Master-Key": API_KEY
     },
     data: JSON.stringify(datos),
     success: function(res) {
       console.log("Datos sincronizados con éxito:", res);
       alert("Datos sincronizados correctamente ✅");
-      localStorage.setItem("jsonBinId", res.metadata.id);
     },
     error: function(err) {
       console.error("Error al guardar JSON:", err);
@@ -39,17 +39,17 @@ function guardarJSON(email, datos) {
   });
 }
 
-function cargarJSON(email) {
-  // Si ya guardaste el binId previamente
-  const binId = localStorage.getItem("jsonBinId");
-  if (!binId) return;
-
+// Cargar JSON
+function cargarJSON() {
   $.ajax({
     url: `https://api.jsonbin.io/v3/b/${binId}/latest`,
     headers: { "X-Master-Key": API_KEY },
     success: function(res) {
       console.log("Datos recuperados:", res.record);
-      // Aquí podrías restaurar las asignaciones en el calendario
+      // Aquí restauras las asignaciones en el calendario
+    },
+    error: function(err) {
+      console.error("Error al cargar JSON:", err);
     }
   });
 }
@@ -59,6 +59,6 @@ $(document).on("click", "#sync", function() {
   const email = localStorage.getItem("userEmail");
   if (!email) return alert("Debes iniciar sesión primero");
 
-  const datos = obtenerDatosCalendario(); // función tuya que devuelve el JSON del calendario
+  const datos = obtenerDatosCalendario(); // tu función que devuelve el JSON
   guardarJSON(email, datos);
 });
