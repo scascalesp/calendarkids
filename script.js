@@ -13,35 +13,6 @@ const mesesNombres = [
   "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
 ];
 
-function guardarJSON(email, datos) {
-  $.ajax({
-    url: "https://api.jsonbin.io/v3/b",
-    type: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-Key": apikey,
-      "X-Bin-Name": email  // el email como nombre identificador
-    },
-    data: JSON.stringify(datos),
-    success: function(res) {
-      console.log("JSON guardado:", res);
-      localStorage.setItem("jsonBinId", res.metadata.id);
-    }
-  });
-}
-
-function cargarJSON(binId) {
-  $.ajax({
-    url: "https://api.jsonbin.io/v3/b/" + binId + "/latest",
-    headers: {
-      "X-Master-Key": apikey
-    },
-    success: function(res) {
-      console.log("Datos recuperados:", res.record);
-    }
-  });
-}
-
 $(document).ready(function() {
   // Carga datos
   $.when(
@@ -220,6 +191,7 @@ $(document).ready(function() {
     reader.readAsText(file);
   });
 });
+
 
 
 
