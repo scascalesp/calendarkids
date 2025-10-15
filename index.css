@@ -173,6 +173,8 @@ select.multiselect {
 .menu-ext
 {
   width: 120px;
+      text-align: left;
+      padding: 5px;
 }
 
  #login-card {
