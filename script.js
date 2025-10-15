@@ -154,11 +154,16 @@ $(document).ready(function() {
     $("#resumen").html(html);
   }
 
+  function asignacionesHasJson()
+  {
+    return JSON.stringify(asignaciones, null, 2);
+  }
+
   // =====================
   // Guardar/Importar JSON
   // =====================
   $("#guardar").on("click", function() {
-    const dataStr = JSON.stringify(asignaciones, null, 2);
+    const dataStr = asignacionesHasJson();
     const blob = new Blob([dataStr], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
