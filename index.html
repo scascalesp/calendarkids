@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Calendario académico 2025-2026</title>
-  <script src="jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="" bootstrap.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
 <body>
@@ -40,15 +39,16 @@
       <div class="mb-3 mt-4 d-flex justify-content-center">
         <button id="guardar" class="btn btn-success me-2">Guardar asignaciones</button>
         <button id="importar" class="btn btn-primary me-2">Importar asignaciones</button>
-        <button id="sync" class="btn btn-warning">Sync</button>
         <input type="file" id="importarFile" style="display:none" accept=".json">
       </div>
     </div>
   </div>
-  <script src="jquery-3.6.0.min.js"></script>
-  <script src="bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
-  <script src="login.js"></script>
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/model/binData.js"></script>
+  <script src="js/model/calendarData.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/login.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>

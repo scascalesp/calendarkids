@@ -1,8 +1,0 @@
-{
-  "usuarios": [
-    { "nombre": "Madre", "inicial": "M", "color": "#ff7f7f" },
-    { "nombre": "Padre", "inicial": "P", "color": "#7fbfff" },
-    { "nombre": "Abuela Paqui", "inicial": "Pa", "color": "#ffd27f" },
-    { "nombre": "Abuela Kerly", "inicial": "K", "color": "#b27fff" }
-  ]
-}
