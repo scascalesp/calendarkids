@@ -47,7 +47,7 @@ function onLogin(response) {
     success: function (res) {
       const maestroJson = res.record; // tu JSON
 
-      debugger;
+      //debugger;
       if (maestroJson) {
         // 🔹 Mapear a clase
         const manager = BinManager.fromJSON(maestroJson);

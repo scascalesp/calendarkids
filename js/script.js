@@ -12,6 +12,18 @@ const mesesNombres = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
 
+$(document).on('input keyup', '.comentario-dia', function () {
+  this.style.height = 'auto';                // reinicia altura
+  this.style.height = this.scrollHeight + 'px'; // ajusta a contenido
+});
+
+function ajustarAlturaTextareas($context) {
+  $context.find(".comentario-dia").each(function () {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+  });
+}
+
 // =====================
 // Generar calendario completo
 // =====================
@@ -39,23 +51,44 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
 
     for (let d = 1; d <= ultimoDia.getDate(); d++) {
       const fecha = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-      const festivo = calendarHolidays[fecha] && (calendarHolidays[fecha].festivo_estatal || calendarHolidays[fecha].festivo_local);
+      const festivoObj = calendarHolidays.find(f => f.fecha === fecha);
 
-      html += `<td class="monthtd ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
-        <div>${d}</div>
-        <div class="asignados"></div>
-        <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
-        <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
-          ${availableCalendarUsers.map(u => `
-            <div class="form-check text-start">
-              <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
-              <label class="form-check-label" for="${fecha}-${u.nombre}" style="color:${u.color}">${u.nombre}</label>
-            </div>`).join('')}
-            
-          <textarea class="form-control mt-2 comentario-dia" rows="2" placeholder="Añadir comentario..."></textarea>
-          <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
-        </div>
-      </td>`;
+      let claseFestivo = "";
+      let tooltip = "";
+      if (festivoObj) {
+        if (festivoObj.festivo_estatal) {
+          claseFestivo = "festivo-estatal";
+          tooltip = "Festivo Estatal";
+        } else if (festivoObj.festivo_autonomico) {
+          claseFestivo = "festivo-autonomico";
+          tooltip = "Festivo Autonómico";
+        } else if (festivoObj.festivo_local) {
+          claseFestivo = "festivo-local";
+          tooltip = "Festivo Local";
+        }
+      }
+
+      const festivo = festivoObj && (festivoObj.festivo_estatal || festivoObj.festivo_local);
+
+      html += `<td title="${tooltip}" class="monthtd ${claseFestivo} ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+      <div>${d}</div>
+      <div class="asignados"></div>
+      <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
+      
+      <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
+        ${availableCalendarUsers.map(u => `
+          <div class="form-check text-start">
+            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
+            <label class="form-check-label" for="${fecha}-${u.nombre}" style="color:${u.color}">${u.nombre}</label>
+          </div>`).join('')}
+          
+        <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
+        <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
+      </div>
+
+      <!-- Div oculto para almacenar el comentario real -->
+      <div class="comentario-oculto" style="display:none;"></div>
+    </td>`;
 
       diaSemana++;
       if (diaSemana === 7 && d < ultimoDia.getDate()) {
@@ -84,34 +117,52 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
   $(".add-btn").on("click", function (e) {
     e.stopPropagation();
     const $menu = $(this).siblings(".multi-menu");
+    const $td = $(this).closest("td");
+    const fecha = $td.data("fecha");
+
+    // Marcar checkboxes
+    $menu.find(".chkUser").prop("checked", false); // reset
+    if (datesSeted[fecha]?.users) {
+      datesSeted[fecha].users.forEach(nombre => {
+        $menu.find(`#${fecha}-${nombre}`).prop("checked", true);
+      });
+    }
+
+    // Leer comentario del div oculto
+    const comentarioOculto = $td.find(".comentario-oculto")[0].innerHTML;
+    $menu.find(".comentario-dia")[0].innerHTML = comentarioOculto || "";
+
     $(".multi-menu").not($menu).hide();
     $menu.toggle();
   });
 
+
   // Botón "Hecho"
- $(".btn-hecho").on("click", function (e) {
-  e.stopPropagation();
-  const $menu = $(this).closest(".multi-menu");
-  const $td = $menu.closest("td");
-  const fecha = $td.data("fecha");
+  $(".btn-hecho").on("click", function (e) {
+    e.stopPropagation();
+    const $menu = $(this).closest(".multi-menu");
+    const $td = $menu.closest("td");
+    const fecha = $td.data("fecha");
 
-  const seleccionados = [];
-  $menu.find(".chkUser:checked").each(function () {
-    seleccionados.push($(this).val());
+    const seleccionados = [];
+    $menu.find(".chkUser:checked").each(function () {
+      seleccionados.push($(this).val());
+    });
+
+    const comentario = $menu.find(".comentario-dia")[0].innerHTML.trim(); // 🔹 usar innerHTML
+
+    // Guardar en el div oculto
+    $td.find(".comentario-oculto")[0].innerHTML = comentario; // 🔹 innerHTML
+
+    // Guardar en datesSeted
+    datesSeted[fecha] = { users: seleccionados, comment: comentario };
+
+    $menu.hide();
+    actualizarDia($td, datesSeted[fecha]);
+
+    saveCalendarData();
+    guardarJSON();
   });
-
-  const comentario = $menu.find(".comentario-dia").val().trim();
-
-  datesSeted[fecha] = {
-    users: seleccionados,
-    comment: comentario
-  };
-
-  $menu.hide();
-  actualizarDia($td, seleccionados, comentario);
-  saveCalendarData();
-  guardarJSON();
-});
 
   // Evita cerrar el menú al hacer clic dentro de él
   $(document).on("click", function (e) {
@@ -123,30 +174,62 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
   // Inicializa los días con datos ya existentes
   $(".mes td").each(function () {
     const fecha = $(this).data("fecha");
-    if (fecha && datesSeted[fecha]) actualizarDia($(this), datesSeted[fecha]);
+    if (fecha && datesSeted[fecha]) {
+      const data = datesSeted[fecha];
+
+      // Actualizar iniciales y div oculto
+      actualizarDia($(this), data);
+
+      // Rellenar textarea con comentario del div oculto
+      const $div = $(this).find(".comentario-dia");
+      $div.html(data.comment || "");
+    }
   });
+
+  //ajustarAlturaTextareas($(".mes"));
 }
 
 // =====================
 // Actualiza un día
 // =====================
-function actualizarDia($td, seleccionados) {
+function actualizarDia($td, data = { users: [], comment: "" }) {
+  const seleccionados = data.users || [];
+  const comentario = data.comment || "";
+
   const $contenedor = $td.find(".asignados");
   $contenedor.empty();
+
   seleccionados.forEach(nombre => {
     const u = availableCalendarUsers.find(x => x.nombre === nombre);
     if (u) $contenedor.append(`<span class="inicial" style="background:${u.color}">${u.inicial}</span>`);
   });
+
+  // Actualizar div oculto con el comentario
+  $td.find(".comentario-oculto").html(comentario);
+
+  // ✅ Añadir icono de comentario si hay comentario
+  $td.find(".comentario-icono").remove(); // eliminar iconos previos
+  if (comentario && comentario.trim() !== "") {
+    $td.append('<span class="comentario-icono" style="position:absolute; top:2px; right:9px; color:#ff0; cursor:pointer; font-weight:bold;">?</span>');
+  }
+
   actualizarResumen();
 }
+
+
 
 function onUserDataChangeCalendar() {
   // Recorre cada celda y actualiza los días
   $(".mes td").each(function () {
     const fecha = $(this).data("fecha");
-    if (fecha) {
-      const seleccionados = datesSeted[fecha] || [];
-      actualizarDia($(this), seleccionados);
+    const data = datesSeted[fecha];
+    if (fecha && data) {
+      actualizarDia($(this), data.users, data.comment);
+      // Rellenar también el textarea si está abierto
+      $(this).find(".comentario-dia").html(data.comment || "");
+      data.users?.forEach(nombre => {
+        $(this).find(`#${fecha}-${nombre}`).prop("checked", true);
+      });
     }
   });
 }
@@ -156,9 +239,9 @@ function onUserDataChangeCalendar() {
 // =====================
 function actualizarResumen() {
   const resumen = {};
-  const dates = datesSeted;
-  for (const fecha in dates) {
-    dates[fecha].forEach(nombre => {
+  for (const fecha in datesSeted) {
+    const data = datesSeted[fecha]; // ahora es { users: [...], comment: "..." }
+    data.users.forEach(nombre => { // ✅ accedemos al array users
       if (!resumen[nombre]) resumen[nombre] = 0;
       resumen[nombre]++;
     });
@@ -176,7 +259,7 @@ function actualizarResumen() {
 }
 
 function loadCalendarData(calendarDataObject) {
-  debugger;
+  // debugger;
   if (calendarDataObject) {
     // 🔹 Mapear a clase
     //calendarData = JSON.parse(calendarDataJson); //CalendarData.fromJSON(calendarDataJson); //ko
@@ -240,5 +323,16 @@ $(document).ready(function () {
     reader.readAsText(file);
   });
 
-
+  setTimeout(() => {
+    //ajustarAlturaTextareas($(".mes"));
+    forzarAlturaTextareasSimulandoInput($(".mes"));
+  }, 2000);
 });
+
+function forzarAlturaTextareasSimulandoInput($context) {
+  $context.find(".comentario-dia").each(function () {
+    const e = new Event('input', { bubbles: true });
+    this.dispatchEvent(e);
+  });
+}
+

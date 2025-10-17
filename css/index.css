@@ -57,9 +57,10 @@ h1 {
   background: #1c1c1c;
   border-radius: 8px;
   padding: 5px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
-  width: 100%; /* ocupa el ancho de la celda del grid */
+  width: 100%;
+  /* ocupa el ancho de la celda del grid */
 }
 
 .mes h2 {
@@ -87,8 +88,10 @@ th {
 
 td {
   border: 1px solid #333;
-  width: 13%; /* columnas más estrechas */
-  height: 56px; /* más alto para iconos */
+  width: 13%;
+  /* columnas más estrechas */
+  height: 56px;
+  /* más alto para iconos */
   text-align: center;
   vertical-align: middle;
   position: relative;
@@ -164,30 +167,28 @@ select.multiselect {
 }
 
 /*tbody, td, tfoot, th, thead, tr*/
-.monthtd
-{
-   border-color: white;
-   border-width: 1px;  
+.monthtd {
+  border-color: white;
+  border-width: 1px;
 }
 
-.menu-ext
-{
-  width: 120px;
-      text-align: left;
-      padding: 5px;
+.menu-ext {
+  width: 250px;
+  text-align: left;
+  padding: 5px;
 }
 
- #login-card {
-      background: #222;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      text-align: center;
-      max-width: 350px;
-      width: 100%;
-    }
+#login-card {
+  background: #222;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  text-align: center;
+  max-width: 350px;
+  width: 100%;
+}
 
- #loading-overlay {
+#loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -196,3 +197,21 @@ select.multiselect {
   background: rgba(0, 0, 0, 0.85);
   z-index: 9999;
 }
+
+.comentario {
+  color: white;
+}
+
+.comentario-dia {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  resize: none;
+  overflow: hidden;
+  min-height: 2em; /* para que tenga altura inicial */
+  padding: 6px;
+}
+
+
+.festivo-estatal { background-color: #f99; }      /* rojo claro */
+.festivo-autonomico { background-color: #2f6e2f; }   /* verde claro */
+.festivo-local { background-color: #99f; }        /* azul claro */
