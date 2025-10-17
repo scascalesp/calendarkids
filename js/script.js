@@ -3,7 +3,7 @@ let availableCalendarUsers = [];
 let datesSeted = {}; // Aquí guardaremos solo las fechas con personas, extraídas del JSON de usuarios
 
 var rango = {
-  inicio:  "2025-09-01",
+  inicio: "2025-09-01",
   fin: "2026-08-31"
 };
 
@@ -11,15 +11,6 @@ const mesesNombres = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
-
-function userDataObject() {
-  return JSON.parse(JSON.stringify(datesSeted));
-}
-
-function userDataHasJson() {
-  return JSON.stringify(datesSeted, null, 2);
-}
- 
 
 // =====================
 // Generar calendario completo
@@ -51,19 +42,20 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       const festivo = calendarHolidays[fecha] && (calendarHolidays[fecha].festivo_estatal || calendarHolidays[fecha].festivo_local);
 
       html += `<td class="monthtd ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
-          <div>${d}</div>
-          <div class="asignados"></div>
-          <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
-          <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
-            ${availableCalendarUsers.map(u => `
-              <div class="form-check text-start">
-                <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
-                <label class="form-check-label" for="${fecha}-${u.nombre}" style="color:${u.color}">${u.nombre}</label>
-              </div>`).join('')}
-              <br>
-            <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
-          </div>
-        </td>`;
+        <div>${d}</div>
+        <div class="asignados"></div>
+        <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
+        <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
+          ${availableCalendarUsers.map(u => `
+            <div class="form-check text-start">
+              <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
+              <label class="form-check-label" for="${fecha}-${u.nombre}" style="color:${u.color}">${u.nombre}</label>
+            </div>`).join('')}
+            
+          <textarea class="form-control mt-2 comentario-dia" rows="2" placeholder="Añadir comentario..."></textarea>
+          <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
+        </div>
+      </td>`;
 
       diaSemana++;
       if (diaSemana === 7 && d < ultimoDia.getDate()) {
@@ -97,20 +89,29 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
   });
 
   // Botón "Hecho"
-  $(".btn-hecho").on("click", function (e) {
-    e.stopPropagation();
-    const $menu = $(this).closest(".multi-menu");
-    const $td = $menu.closest("td");
-    const fecha = $td.data("fecha");
+ $(".btn-hecho").on("click", function (e) {
+  e.stopPropagation();
+  const $menu = $(this).closest(".multi-menu");
+  const $td = $menu.closest("td");
+  const fecha = $td.data("fecha");
 
-    const seleccionados = [];
-    $menu.find(".chkUser:checked").each(function () {
-      seleccionados.push($(this).val());
-    });
-    datesSeted[fecha] = seleccionados;
-    $menu.hide();
-    actualizarDia($td, seleccionados);
+  const seleccionados = [];
+  $menu.find(".chkUser:checked").each(function () {
+    seleccionados.push($(this).val());
   });
+
+  const comentario = $menu.find(".comentario-dia").val().trim();
+
+  datesSeted[fecha] = {
+    users: seleccionados,
+    comment: comentario
+  };
+
+  $menu.hide();
+  actualizarDia($td, seleccionados, comentario);
+  saveCalendarData();
+  guardarJSON();
+});
 
   // Evita cerrar el menú al hacer clic dentro de él
   $(document).on("click", function (e) {
@@ -174,18 +175,46 @@ function actualizarResumen() {
   $("#resumen").html(html);
 }
 
+function loadCalendarData(calendarDataObject) {
+  debugger;
+  if (calendarDataObject) {
+    // 🔹 Mapear a clase
+    //calendarData = JSON.parse(calendarDataJson); //CalendarData.fromJSON(calendarDataJson); //ko
+    //set calendarHolidays = {};
+    calendarHolidays = calendarDataObject.calendarHolidays || {};
+    availableCalendarUsers = calendarDataObject.availableCalendarUsers || [];
+    datesSeted = calendarDataObject.datesSeted || {};
+    rango.inicio = calendarDataObject.calendarStart;
+    rango.fin = calendarDataObject.calendarEnd;
+
+    console.log("Datos del bin del usuario cargados");
+
+    generarCalendarioRango(rango.inicio, rango.fin);
+  }
+  else {
+    console.log("Bin del usuario vacío");
+  }
+}
+
+function saveCalendarData() {
+  if (!calendarData) {
+    calendarData = {};
+  }
+  calendarData.calendarHolidays = calendarHolidays;
+  calendarData.availableCalendarUsers = availableCalendarUsers;
+  calendarData.datesSeted = datesSeted;
+  calendarData.calendarStart = rango.inicio;
+  calendarData.calendarEnd = rango.fin;
+}
 
 $(document).ready(function () {
-  // =====================
-  // Guardar/Importar JSON
-  // =====================
-  $("#guardar").on("click", function () {
-    const dataStr = userDataHasJson();
+  $("#exportar").on("click", function () {
+    const dataStr = JSON.stringify(calendarData);
     const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "userData.json";
+    a.download = `calendarData_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   });
@@ -200,20 +229,16 @@ $(document).ready(function () {
     const reader = new FileReader();
     reader.onload = function (evt) {
       try {
-        const data = JSON.parse(evt.target.result);
-        // Adaptar si el JSON importado tiene la nueva estructura
-        const userEmail = "scascalesp@gmail.com";
-        if (data[userEmail] && data[userEmail].userData) {
-          datesSeted = data[userEmail].userData;
-        }
-        $(".mes td").each(function () {
-          const fecha = $(this).data("fecha");
-          if (fecha && datesSeted[fecha]) actualizarDia($(this), datesSeted[fecha]);
-        });
+        calendarData = JSON.parse(evt.target.result);
+        if (!calendarData || typeof calendarData !== 'object') throw new Error("Invalid JSON");
+        loadCalendarData(calendarData);
+        alert("importación completada");
       } catch (err) {
         alert("Archivo JSON inválido");
       }
     };
     reader.readAsText(file);
   });
+
+
 });
