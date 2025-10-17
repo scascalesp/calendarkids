@@ -78,8 +78,8 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
         ${availableCalendarUsers.map(u => `
           <div class="form-check text-start">
-            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre}">
-            <label class="form-check-label" for="${fecha}-${u.nombre}" style="color:${u.color}">${u.nombre}</label>
+            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
+            <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
           </div>`).join('')}
           
         <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
@@ -124,7 +124,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     $menu.find(".chkUser").prop("checked", false); // reset
     if (datesSeted[fecha]?.users) {
       datesSeted[fecha].users.forEach(nombre => {
-        $menu.find(`#${fecha}-${nombre}`).prop("checked", true);
+        $menu.find(`#${fecha}-${nombre.replace(/\s+/g, '_')}`).prop("checked", true);
       });
     }
 
