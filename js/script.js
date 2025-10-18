@@ -291,6 +291,10 @@ function saveCalendarData() {
 }
 
 $(document).ready(function () {
+  $("#legend-toggle").on("click", function () {
+    $("#legend-content").toggle();
+  });
+
   $("#exportar").on("click", function () {
     const dataStr = JSON.stringify(calendarData);
     const blob = new Blob([dataStr], { type: "application/json" });

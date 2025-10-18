@@ -215,3 +215,11 @@ select.multiselect {
 .festivo-estatal { background-color: #f99; }      /* rojo claro */
 .festivo-autonomico { background-color: #2f6e2f; }   /* verde claro */
 .festivo-local { background-color: #35357e; }        /* azul claro */
+
+#legend-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 10000; /* mayor que 9999 del overlay */
+  text-align:right;
+}
