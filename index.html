@@ -36,8 +36,10 @@
 
   <!-- Contenido principal (oculto hasta login) -->
   <div id="app" style="display:none;">
-    <h1>Calendario 2025-2026 <span style="font-size: 0.5em; color: #666;">v1.0</span></h1>
-
+    <div class="d-flex justify-content-center align-items-center gap-2">
+      <h1 id="calendar-title" class="mb-0">Calendario</h1>
+      <span class="small">v1.0</span>
+    </div>
 
     <div class="mb-3 d-flex justify-content-center">
       <div id="resumen"></div>
@@ -52,7 +54,7 @@
     </div>
 
     <!-- Leyenda flotante colapsable -->
-    <div id="legend-container" >
+    <div id="legend-container">
       <button id="legend-toggle" class="btn btn-sm btn-warning">Leyenda</button>
       <div id="legend-content" style="display:none; text-align: left;
        background:#222; color:#fff; padding:10px; border-radius:6px; 

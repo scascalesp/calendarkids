@@ -207,19 +207,64 @@ select.multiselect {
   line-height: 1.2;
   resize: none;
   overflow: hidden;
-  min-height: 2em; /* para que tenga altura inicial */
+  min-height: 2em;
+  /* para que tenga altura inicial */
   padding: 6px;
 }
 
+.comentario-icono {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: #fff;
+  background:#666639;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+}
 
-.festivo-estatal { background-color: #f99; }      /* rojo claro */
-.festivo-autonomico { background-color: #2f6e2f; }   /* verde claro */
-.festivo-local { background-color: #35357e; }        /* azul claro */
+
+.festivo-estatal {
+  background-color: #f99;
+}
+
+/* rojo claro */
+.festivo-autonomico {
+  background-color: #2f6e2f;
+}
+
+/* verde claro */
+.festivo-local {
+  background-color: #35357e;
+}
+
+/* azul claro */
 
 #legend-container {
   position: fixed;
   top: 10px;
   right: 10px;
-  z-index: 10000; /* mayor que 9999 del overlay */
-  text-align:right;
+  z-index: 10000;
+  /* mayor que 9999 del overlay */
+  text-align: right;
+}
+
+.fin-de-semana {
+  background-color: #333 !important;
+}
+
+.disabled-control {
+  pointer-events: none;
+}
+
+.add-btn.disabled,
+#importar.disabled,
+#exportar.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

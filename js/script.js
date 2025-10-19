@@ -1,6 +1,7 @@
 let calendarHolidays = {};
 let availableCalendarUsers = [];
 let datesSeted = {}; // Aquí guardaremos solo las fechas con personas, extraídas del JSON de usuarios
+var userPerms = [];
 
 var rango = {
   inicio: "2025-09-01",
@@ -68,27 +69,30 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
         }
       }
 
+      // 🔹 Añadir clase para sábado (6) y domingo (0)
+      const diaSemanaReal = new Date(y, m, d).getDay();
+      const claseFinDeSemana = (diaSemanaReal === 6 || diaSemanaReal === 0) ? "fin-de-semana" : "";
+
       const festivo = festivoObj && (festivoObj.festivo_estatal || festivoObj.festivo_local);
 
-      html += `<td title="${tooltip}" class="monthtd ${claseFestivo} ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
-      <div>${d}</div>
-      <div class="asignados"></div>
-      <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
-      
-      <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
-        ${availableCalendarUsers.map(u => `
-          <div class="form-check text-start">
-            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
-            <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
-          </div>`).join('')}
-          
-        <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
-        <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
-      </div>
+      html += `<td title="${tooltip}" class="monthtd ${claseFestivo} ${claseFinDeSemana} ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+        <div>${d}</div>
+        <div class="asignados"></div>
+        <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
+        
+        <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
+          ${availableCalendarUsers.map(u => `
+            <div class="form-check text-start">
+              <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
+              <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
+            </div>`).join('')}
+            
+          <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
+          <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
+        </div>
 
-      <!-- Div oculto para almacenar el comentario real -->
-      <div class="comentario-oculto" style="display:none;"></div>
-    </td>`;
+        <div class="comentario-oculto" style="display:none;"></div>
+      </td>`;
 
       diaSemana++;
       if (diaSemana === 7 && d < ultimoDia.getDate()) {
@@ -107,7 +111,8 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
 
     m++;
     if (m > 11) { m = 0; y++; }
-  }
+  } // 🔹 Cierre del while principal
+
 
   // =====================
   // Eventos
@@ -133,7 +138,14 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     $menu.find(".comentario-dia")[0].innerHTML = comentarioOculto || "";
 
     $(".multi-menu").not($menu).hide();
+
     $menu.toggle();
+
+    if (!userPerms.includes("write")) {
+      $menu.prop("disabled", true).addClass("disabled-control");
+      $menu.find(".btn-hecho").hide();
+      $menu.find("input, .comentario-dia").attr("contenteditable", false).prop("disabled", true);
+    }
   });
 
 
@@ -149,12 +161,14 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       seleccionados.push($(this).val());
     });
 
-    const comentario = $menu.find(".comentario-dia")[0].innerHTML.trim(); // 🔹 usar innerHTML
-
-    // Guardar en el div oculto
-    $td.find(".comentario-oculto")[0].innerHTML = comentario; // 🔹 innerHTML
-
-    // Guardar en datesSeted
+    const comentariodiatext = $menu.find(".comentario-dia").text();
+    var comentarioRaw = $menu.find(".comentario-dia")[0].innerHTML;
+    if (comentariodiatext.trim() === "" && seleccionados.length === 0) {
+      // Si no hay nada seleccionado ni comentario, eliminar la entrada
+      comentarioRaw = "";
+    }    
+    const comentario = limpiarComentario(comentarioRaw); // Limpiamos <br> y espacios
+    $td.find(".comentario-oculto")[0].innerHTML = comentario;
     datesSeted[fecha] = { users: seleccionados, comment: comentario };
 
     $menu.hide();
@@ -189,12 +203,20 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
   //ajustarAlturaTextareas($(".mes"));
 }
 
+function limpiarComentario(texto) {
+  if (!texto) return "";
+  // Eliminar espacios al principio y final, y reemplazar <br> por vacío
+  let limpio = texto.replace(/<br\s*\/?>/gi, '').trim();
+  return limpio;
+}
+
+
 // =====================
 // Actualiza un día
 // =====================
 function actualizarDia($td, data = { users: [], comment: "" }) {
   const seleccionados = data.users || [];
-  const comentario = data.comment || "";
+  const comentario = limpiarComentario(data.comment || "");
 
   const $contenedor = $td.find(".asignados");
   $contenedor.empty();
@@ -207,10 +229,10 @@ function actualizarDia($td, data = { users: [], comment: "" }) {
   // Actualizar div oculto con el comentario
   $td.find(".comentario-oculto").html(comentario);
 
-  // ✅ Añadir icono de comentario si hay comentario
-  $td.find(".comentario-icono").remove(); // eliminar iconos previos
+  // Actualizar icono de comentario
+  $td.find(".comentario-icono").remove(); // eliminar todos los iconos previos
   if (comentario && comentario.trim() !== "") {
-    $td.append('<span class="comentario-icono" style="position:absolute; top:2px; right:9px; color:#ff0; cursor:pointer; font-weight:bold;">?</span>');
+    $td.append('<span class="comentario-icono">?</span>');
   }
 
   actualizarResumen();
@@ -226,7 +248,7 @@ function onUserDataChangeCalendar() {
     if (fecha && data) {
       actualizarDia($(this), data.users, data.comment);
       // Rellenar también el textarea si está abierto
-      $(this).find(".comentario-dia").html(data.comment || "");
+      $(this).find(".comentario-dia").html(limpiarComentario(data.comment || ""));
       data.users?.forEach(nombre => {
         $(this).find(`#${fecha}-${nombre}`).prop("checked", true);
       });
@@ -269,10 +291,17 @@ function loadCalendarData(calendarDataObject) {
     datesSeted = calendarDataObject.datesSeted || {};
     rango.inicio = calendarDataObject.calendarStart;
     rango.fin = calendarDataObject.calendarEnd;
+    //$("#calendar-title").text(`Calendario ${rango.inicio.getFullYear()}-${rango.fin.getFullYear()}`);
+    $("#calendar-title").text(calendarDataObject.calendarTitle);
 
     console.log("Datos del bin del usuario cargados");
 
     generarCalendarioRango(rango.inicio, rango.fin);
+
+    if (!userPerms.includes("write")) {
+      $("#importar, #exportar").prop("disabled", true).addClass("disabled");
+      console.log("Modo lectura: no puede modificar datos");
+    }
   }
   else {
     console.log("Bin del usuario vacío");

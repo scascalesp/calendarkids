@@ -6,6 +6,31 @@ const BIN_ID_MAESTRO = "68f15d87d0ea881f40a6f4cf"; // Bin configuración maestro
 var binId = null; // Bin del usuario (se asigna al crear bin o al loguearse)
 /** @type {BinData} */
 var calendarData = null; // Datos del bin del usuario
+let manager = null;
+
+function loadMasterBin() {
+  $.ajax({
+    url: `https://api.jsonbin.io/v3/b/${BIN_ID_MAESTRO}/latest`,
+    headers: { "X-Master-Key": API_KEY },
+    success: function (res) {
+      const maestroJson = res.record; // tu JSON
+
+      //debugger;
+      if (maestroJson) {
+        manager = BinManager.fromJSON(maestroJson);
+      }
+      else {
+        //TODO: crear bin maestro
+        alert("Bin maestro vacío. Pida al admin crear bin maestro");
+      }
+    },
+    error: function (err) {
+      console.error("Error al leer bin maestro:", err);
+    }
+  });
+}
+
+loadMasterBin();
 
 function onUserDataChange() {
   calendarData.datesSeted = datesSeted;
@@ -25,51 +50,63 @@ datesSeted = new Proxy(datesSeted, {
   }
 });
 
+
+// Función para esperar hasta que maestroJson esté disponible, con timeout
+function waitForMasterJson(timeout = 15000) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+
+    const check = () => {
+      if (manager) {
+        resolve(manager);
+      } else if (Date.now() - start > timeout) {
+        reject(new Error("Timeout esperando bin maestro"));
+      } else {
+        setTimeout(check, 100); // revisa cada 100ms
+      }
+    };
+
+    check();
+  });
+}
+
 // ----------------------------
 // LOGIN 
 // ----------------------------
-function onLogin(response) {
-  $("#loading-overlay").removeClass("d-none");
-  const data = jwt_decode(response.credential);
-  const email = data.email;
-  console.log("Login correcto:", email);
+async function onLogin(response) {
+  try {
+    $("#loading-overlay").removeClass("d-none");
+    const data = jwt_decode(response.credential);
+    const email = data.email;
+    console.log("Login correcto:", email);
 
-  localStorage.setItem("userEmail", email);
+    localStorage.setItem("userEmail", email);
 
-  //$("#login-container-div").hide();
-  $("#login-container-div").addClass("d-none");
-  $("#app").show();
+    const json = await waitForMasterJson();
+    let found = false;
 
-  // Revisar si existe binId para este email en el bin maestro
-  $.ajax({
-    url: `https://api.jsonbin.io/v3/b/${BIN_ID_MAESTRO}/latest`,
-    headers: { "X-Master-Key": API_KEY },
-    success: function (res) {
-      const maestroJson = res.record; // tu JSON
-
-      //debugger;
-      if (maestroJson) {
-        // 🔹 Mapear a clase
-        const manager = BinManager.fromJSON(maestroJson);
-        manager.bins.forEach(bind => {
-          //loop users
-          var user = bind.getUserByKey(email);
-          if (user) {
-            console.log("Usuario encontrado en bin:", user);
-            binId = bind.binId;
-            getBindData();
-          }
-        });
+    manager.bins.forEach(bind => {
+      //loop users
+      var user = bind.getUserByKey(email);
+      if (user) {
+        console.log("Usuario encontrado en bin:", user);
+        binId = bind.binId;
+        userPerms = user.permissions || [];
+        getBindData();
+        found = true;
       }
-      else {
-        //TODO: crear bin maestro
-        alert("Bin maestro vacío. Pida al admin crear bin maestro");
-      }
-    },
-    error: function (err) {
-      console.error("Error al leer bin maestro:", err);
+    });
+
+    if (!found) {
+      alert("Usuario no encontrado en bin maestro");
     }
-  });s
+
+    //$("#login-container-div").hide();
+    $("#login-container-div").addClass("d-none");
+    $("#app").show();
+  } catch (err) {
+    alert("Login fallido:", err.message);
+  }
 }
 
 function getBindData() {
@@ -78,14 +115,31 @@ function getBindData() {
     headers: { "X-Master-Key": API_KEY },
     success: function (res) {
       calendarData = res.record; // tu JSON
+
+      // 🔒 Comprobar permisos
+      const tieneRead = userPerms.includes("read");
+      const tieneWrite = userPerms.includes("write");
+
+      if (!tieneRead && !tieneWrite) {
+        $("#loading-overlay").addClass("d-none");
+        alert("No tienes permisos para acceder a este calendario");
+        $("#app").hide();
+        $("#login-container-div").removeClass("d-none");
+        return;
+      }
+
+      // Cargar calendario
       loadCalendarData(calendarData);
+
       $("#loading-overlay").addClass("d-none");
     },
     error: function (err) {
-      console.error("Error al leer bin maestro:", err);
+      console.error("Error al leer bin del usuario:", err);
+      $("#loading-overlay").addClass("d-none");
     }
   });
 }
+
 
 // ----------------------------
 // GUARDAR JSON DEL USUARIO
