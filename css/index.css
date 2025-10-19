@@ -268,3 +268,6 @@ select.multiselect {
   opacity: 0.5;
   pointer-events: none;
 }
+ .resum-year {
+   color: white;
+ }

@@ -260,25 +260,40 @@ function onUserDataChangeCalendar() {
 // Actualiza resumen global
 // =====================
 function actualizarResumen() {
-  const resumen = {};
+  const resumenPorAnio = {};
+
+  // Agrupar por año y por usuario
   for (const fecha in datesSeted) {
-    const data = datesSeted[fecha]; // ahora es { users: [...], comment: "..." }
-    data.users.forEach(nombre => { // ✅ accedemos al array users
-      if (!resumen[nombre]) resumen[nombre] = 0;
-      resumen[nombre]++;
+    const data = datesSeted[fecha];
+    const anio = new Date(fecha).getFullYear();
+
+    if (!resumenPorAnio[anio]) resumenPorAnio[anio] = {};
+
+    data.users.forEach(nombre => {
+      if (!resumenPorAnio[anio][nombre]) resumenPorAnio[anio][nombre] = 0;
+      resumenPorAnio[anio][nombre]++;
     });
   }
 
-  const html = Object.entries(resumen)
-    .map(([nombre, dias]) => {
-      const u = availableCalendarUsers.find(x => x.nombre === nombre);
-      const color = u ? u.color : "#fff";
-      return `<div style="display:inline-block; margin:4px; padding:4px; background:${color}; color:#000; border-radius:4px;">
-            ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
-          </div>`;
-    }).join('');
+  // Crear HTML agrupado por año en una sola línea
+  let html = "";
+  for (const anio in resumenPorAnio) {
+    const usuarios = Object.entries(resumenPorAnio[anio])
+      .map(([nombre, dias]) => {
+        const u = availableCalendarUsers.find(x => x.nombre === nombre);
+        const color = u ? u.color : "#fff";
+        return `<span style="background:${color}; color:#000; border-radius:4px; padding:2px 5px; margin:0 3px;">
+                  ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
+                </span>`;
+      })
+      .join(" · "); // <-- separador entre usuarios
+
+    html += `<div style="margin:6px 0;"><strong class="resum-year">${anio}:</strong> ${usuarios}</div>`;
+  }
+
   $("#resumen").html(html);
 }
+
 
 function loadCalendarData(calendarDataObject) {
   // debugger;
