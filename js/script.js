@@ -42,7 +42,8 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     const ultimoDia = new Date(y, m + 1, 0);
     const nombreMes = `${mesesNombres[m]} ${y}`;
 
-    let html = `<div class="mes"><h2>${nombreMes}</h2>
+ let html = `<div class="col-12 col-md-4 mb-3">
+              <div class="mes p-2"><h2>${nombreMes}</h2>
       <table><thead><tr>
       <th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sá</th><th>Do</th>
       </tr></thead><tbody><tr>`;
@@ -106,7 +107,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       diaSemana++;
     }
 
-    html += "</tr></tbody></table></div>";
+    html += "</tr></tbody></table></div></div>";
     $contenedor.append(html);
 
     m++;
@@ -166,7 +167,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     if (comentariodiatext.trim() === "" && seleccionados.length === 0) {
       // Si no hay nada seleccionado ni comentario, eliminar la entrada
       comentarioRaw = "";
-    }    
+    }
     const comentario = limpiarComentario(comentarioRaw); // Limpiamos <br> y espacios
     $td.find(".comentario-oculto")[0].innerHTML = comentario;
     datesSeted[fecha] = { users: seleccionados, comment: comentario };
@@ -262,38 +263,39 @@ function onUserDataChangeCalendar() {
 function actualizarResumen() {
   const resumenPorAnio = {};
 
-  // Agrupar por año y por usuario
   for (const fecha in datesSeted) {
     const data = datesSeted[fecha];
     const anio = new Date(fecha).getFullYear();
-
     if (!resumenPorAnio[anio]) resumenPorAnio[anio] = {};
-
     data.users.forEach(nombre => {
       if (!resumenPorAnio[anio][nombre]) resumenPorAnio[anio][nombre] = 0;
       resumenPorAnio[anio][nombre]++;
     });
   }
 
-  // Crear HTML agrupado por año en una sola línea
   let html = "";
-  for (const anio in resumenPorAnio) {
+  const anios = Object.keys(resumenPorAnio);
+  anios.forEach((anio, index) => {
     const usuarios = Object.entries(resumenPorAnio[anio])
       .map(([nombre, dias]) => {
         const u = availableCalendarUsers.find(x => x.nombre === nombre);
         const color = u ? u.color : "#fff";
-        return `<span style="background:${color}; color:#000; border-radius:4px; padding:2px 5px; margin:0 3px;">
-                  ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
-                </span>`;
+        return `<span style="background:${color}; color:#000; border-radius:4px; padding:2px 5px;">
+                ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
+              </span>`;
       })
-      .join(" · "); // <-- separador entre usuarios
+      .join("");
 
-    html += `<div style="margin:6px 0;"><strong class="resum-year">${anio}:</strong> ${usuarios}</div>`;
-  }
+    html += `<div><strong class="resum-year">${anio}:</strong> ${usuarios}</div>`;
+
+    // Solo poner <hr> si NO es el último año
+    if (index < anios.length - 1) {
+      html += "<hr>";
+    }
+  });
 
   $("#resumen").html(html);
 }
-
 
 function loadCalendarData(calendarDataObject) {
   // debugger;

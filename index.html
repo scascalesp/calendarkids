@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendario académico 2025-2026</title>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -15,65 +16,67 @@
     </div>
   </div>
 
+  <div id="container-page">
+    <div id="login-container-div" class="container vh-100 d-flex justify-content-center align-items-center">
+      <div id="login-container" class="row justify-content-center w-100">
+        <div id="login-card" class="col-12 col-sm-8 col-md-6 col-lg-4 text-center p-4 border rounded shadow bg-white">
+          <h3 class="mb-4">Inicia sesión</h3>
 
-  <div id="login-container-div" class="container vh-100 d-flex justify-content-center align-items-center">
-    <div id="login-container" class="row">
-      <!-- Login con Google -->
-      <div id="login-card" >
-        <h3 class="mb-4">Inicia sesión</h3>
+          <div class="google-btn-wrapper">
+            <div id="g_id_onload"
+              data-client_id="747583110467-lt8kucv2crhpaid91ad9mjjifcbilrq4.apps.googleusercontent.com"
+              data-callback="onLogin">
+            </div>
 
-        <!-- Botón de Google -->
-        <div id="g_id_onload" data-client_id="747583110467-lt8kucv2crhpaid91ad9mjjifcbilrq4.apps.googleusercontent.com"
-          data-callback="onLogin">
-        </div>
-
-        <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
-          data-text="signin_with" data-size="large" data-logo_alignment="left">
+            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+              data-text="signin_with" data-size="large" data-width="100%" data-logo_alignment="left">
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Contenido principal (oculto hasta login) -->
-  <div id="app" style="display:none;">
-    <div class="d-flex justify-content-center align-items-center gap-2">
-      <h1 id="calendar-title" class="mb-0">Calendario</h1>
-      <span class="small">v1.0</span>
-    </div>
+    <!-- Contenido principal (oculto hasta login) -->
+    <div id="app" style="display:none;">
+      <div class="d-flex justify-content-center align-items-center gap-2">
+        <h1 id="calendar-title" class="mb-0">Calendario</h1>
+        <span class="small">v1.0</span>
+      </div>
 
-    <div class="mb-3 d-flex justify-content-center">
-      <div id="resumen"></div>
-    </div>
+      <div class="d-flex justify-content-center">
+        <div id="resumen"></div>
+      </div>
 
-    <div id="calendario" class="calendario"></div>
+      <div id="calendario"  class="row calendario"></div>
 
-    <div class="mb-3 mt-4 d-flex justify-content-center">
-      <button id="exportar" class="btn btn-success me-2">Exportar asignaciones</button>
-      <button id="importar" class="btn btn-primary me-2">Importar asignaciones</button>
-      <input type="file" id="importarFile" style="display:none" accept=".json">
-    </div>
+      <div class="mb-3 mt-4 d-flex justify-content-center">
+        <button id="exportar" class="btn btn-success me-2">Exportar asignaciones</button>
+        <button id="importar" class="btn btn-primary me-2">Importar asignaciones</button>
+        <input type="file" id="importarFile" style="display:none" accept=".json">
+      </div>
 
-    <!-- Leyenda flotante colapsable -->
-    <div id="legend-container">
-      <button id="legend-toggle" class="btn btn-sm btn-warning">Leyenda</button>
-      <div id="legend-content" style="display:none; text-align: left;
+      <!-- Leyenda flotante colapsable -->
+      <div id="legend-container">
+        <button id="legend-toggle" class="btn btn-sm btn-warning">?</button>
+        <div id="legend-content" style="display:none; text-align: left;
        background:#222; color:#fff; padding:10px; border-radius:6px; 
        margin-top:5px; min-width:200px; box-shadow:0 2px 6px rgba(0,0,0,0.5);">
-        <div style="display: table-row;">
-          <div style="display: table-cell; width:20px; background:#f99; border-radius:3px;">&nbsp;</div>
-          <div style="display: table-cell; padding-left:8px;">Festivo Estatal</div>
-        </div>
-        <div style="display: table-row;">
-          <div style="display: table-cell; width:20px; background:#9f9; border-radius:3px;">&nbsp;</div>
-          <div style="display: table-cell; padding-left:8px;">Festivo Autonómico</div>
-        </div>
-        <div style="display: table-row;">
-          <div style="display: table-cell; width:20px; background:#99f; border-radius:3px;">&nbsp;</div>
-          <div style="display: table-cell; padding-left:8px;">Festivo Local</div>
-        </div>
-        <div style="display: table-row;">
-          <div style="display: table-cell; width:20px; color:#ff0; font-weight:bold;">?</div>
-          <div style="display: table-cell; padding-left:8px;">Comentario disponible (pulse)</div>
+          <div style="display: table-row;">
+            <div style="display: table-cell; width:20px; background:#f99; border-radius:3px;">&nbsp;</div>
+            <div style="display: table-cell; padding-left:8px;">Festivo Estatal</div>
+          </div>
+          <div style="display: table-row;">
+            <div style="display: table-cell; width:20px; background:#9f9; border-radius:3px;">&nbsp;</div>
+            <div style="display: table-cell; padding-left:8px;">Festivo Autonómico</div>
+          </div>
+          <div style="display: table-row;">
+            <div style="display: table-cell; width:20px; background:#99f; border-radius:3px;">&nbsp;</div>
+            <div style="display: table-cell; padding-left:8px;">Festivo Local</div>
+          </div>
+          <div style="display: table-row;">
+            <div style="display: table-cell; width:20px; color:#ff0; font-weight:bold;">?</div>
+            <div style="display: table-cell; padding-left:8px;">Comentario disponible (pulse)</div>
+          </div>
         </div>
       </div>
     </div>

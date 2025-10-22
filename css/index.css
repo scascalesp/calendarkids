@@ -6,6 +6,10 @@ body {
   text-align: center;
 }
 
+#container-page {
+  padding: 10px;
+}
+
 h1 {
   font-size: 26px;
   margin: 20px 0;
@@ -15,8 +19,16 @@ h1 {
 
 /* ===== Contenedor general ===== */
 #resumen {
-  margin: 10px auto 20px auto;
-  text-align: center;
+  margin: 10px auto 5px auto;
+  text-align: left; /* ← de centro a izquierda */
+  max-width: 800px; /* opcional, para que no ocupe todo el ancho */
+}
+#resumen div {
+  margin: 4px 0; /* separación vertical entre años */
+}
+#resumen span {
+  display: inline-block;
+  margin: 0 4px 2px 0; /* margen entre usuarios */
 }
 
 /* Centra botones superiores */
@@ -30,9 +42,9 @@ h1 {
 
 /* ===== Calendario ===== */
 #calendario {
-  display: grid;
-  gap: 24px;
-  padding: 10px;
+  /*display: grid;*/
+  /*gap: 24px;*/
+  /*padding: 10px;*/
 
   /* por defecto, 1 columna (móvil) */
   grid-template-columns: 1fr;
@@ -156,16 +168,6 @@ select.multiselect {
   padding: 2px;
 }
 
-/* ===== Resumen por persona ===== */
-#resumen div {
-  display: inline-block;
-  margin: 4px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: #000;
-  font-weight: bold;
-}
-
 /*tbody, td, tfoot, th, thead, tr*/
 .monthtd {
   border-color: white;
@@ -217,7 +219,7 @@ select.multiselect {
   top: 2px;
   right: 2px;
   color: #fff;
-  background:#666639;
+  background: #666639;
   cursor: pointer;
   font-weight: bold;
   font-size: 16px;
@@ -268,6 +270,18 @@ select.multiselect {
   opacity: 0.5;
   pointer-events: none;
 }
- .resum-year {
-   color: white;
- }
+
+.resum-year {
+  color: white;
+}
+ 
+/* En móviles: ocupa todo el ancho y más alto */
+@media (max-width: 576px) {
+    .monthtd {
+    height: 150px;
+  }   
+  #calendario {
+   padding: 0px;
+  }
+ 
+}
