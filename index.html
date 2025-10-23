@@ -17,6 +17,7 @@
   </div>
 
   <div id="container-page">
+
     <div id="login-container-div" class="container vh-100 d-flex justify-content-center align-items-center">
       <div id="login-container" class="row justify-content-center w-100">
         <div id="login-card" class="col-12 col-sm-8 col-md-6 col-lg-4 text-center p-4 border rounded shadow bg-white">
@@ -47,7 +48,7 @@
         <div id="resumen"></div>
       </div>
 
-      <div id="calendario"  class="row calendario"></div>
+      <div id="calendario" class="row calendario"></div>
 
       <div class="mb-3 mt-4 d-flex justify-content-center">
         <button id="exportar" class="btn btn-success me-2">Exportar asignaciones</button>
@@ -81,6 +82,13 @@
       </div>
     </div>
   </div>
+
+  <div id="popup-dias" style="display:none; ">
+    <button id="popup-close" >×</button>
+    <h4 id="popup-title" style="text-align:center; margin-bottom:1rem;">Días de la persona</h4>
+    <ul id="popup-list"></ul>
+</div>
+
 
   <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>

@@ -42,7 +42,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
     const ultimoDia = new Date(y, m + 1, 0);
     const nombreMes = `${mesesNombres[m]} ${y}`;
 
- let html = `<div class="col-12 col-md-4 mb-3">
+    let html = `<div class="col-12 col-md-4 mb-3">
               <div class="mes p-2"><h2>${nombreMes}</h2>
       <table><thead><tr>
       <th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sá</th><th>Do</th>
@@ -82,8 +82,10 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
         <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
         
         <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
+          <button class="close-menu">×</button>
+          <h5 style="color:white;text-align:center;">${fecha}</h5>
           ${availableCalendarUsers.map(u => `
-            <div class="form-check text-start">
+            <div class="form-check text-start option-user">
               <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
               <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
             </div>`).join('')}
@@ -198,6 +200,11 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       // Rellenar textarea con comentario del div oculto
       const $div = $(this).find(".comentario-dia");
       $div.html(data.comment || "");
+
+      // 🔹 Marcar checkboxes correctamente
+      data.users?.forEach(nombre => {
+        $(this).find(`#${fecha}-${nombre.replace(/\s+/g, '_')}`).prop("checked", true);
+      });
     }
   });
 
@@ -280,7 +287,7 @@ function actualizarResumen() {
       .map(([nombre, dias]) => {
         const u = availableCalendarUsers.find(x => x.nombre === nombre);
         const color = u ? u.color : "#fff";
-        return `<span style="background:${color}; color:#000; border-radius:4px; padding:2px 5px;">
+        return `<span class="resum-year-total" style="background:${color};">
                 ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
               </span>`;
       })
@@ -290,7 +297,7 @@ function actualizarResumen() {
 
     // Solo poner <hr> si NO es el último año
     if (index < anios.length - 1) {
-      html += "<hr>";
+      html += "<div class='divider-resum'></div>";
     }
   });
 
@@ -337,6 +344,57 @@ function saveCalendarData() {
 }
 
 $(document).ready(function () {
+  // Al hacer clic en un resumen de usuario
+  $(document).on("click", ".resum-year-total", function (e) {
+    const nombre = $(this).text().split(':')[0].trim(); // mantener nombre tal cual
+    const anio = parseInt($(this).closest('div').find('.resum-year').text(), 10);
+
+    const dias = [];
+
+    for (const fecha in datesSeted) {
+      const data = datesSeted[fecha];
+      // comparar ignorando mayúsculas y espacios
+      if (data.users.some(u => u.trim().toLowerCase() === nombre.trim().toLowerCase())) {
+        const f = new Date(fecha);
+        if (f.getFullYear() === anio) {
+          dias.push(fecha);
+        }
+      }
+    }
+
+    // Llenar el popup
+    $("#popup-title").text(`Días de ${nombre} en ${anio}`);
+    const $list = $("#popup-list");
+    $list.empty();
+    if (dias.length === 0) {
+      $list.append("<li>No hay días registrados</li>");
+    } else {
+      dias.forEach(d => {
+        $list.append(`<li>${d}</li>`);
+      });
+    }
+
+    $("#popup-dias").show();
+  });
+
+  // Cerrar popup
+  $("#popup-close").on("click", function () {
+    $("#popup-dias").hide();
+  });
+
+  // Cerrar al hacer clic fuera del popup
+  $(document).on("click", function (e) {
+    if (!$(e.target).closest("#popup-dias, .resum-year-total").length) {
+      $("#popup-dias").hide();
+    }
+  });
+
+
+  $(document).on("click", ".close-menu", function (e) {
+    e.stopPropagation();
+    $(this).closest(".multi-menu").hide();
+  });
+
   $("#legend-toggle").on("click", function () {
     $("#legend-content").toggle();
   });

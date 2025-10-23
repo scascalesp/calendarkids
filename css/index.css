@@ -20,15 +20,16 @@ h1 {
 /* ===== Contenedor general ===== */
 #resumen {
   margin: 10px auto 5px auto;
-  text-align: left; /* ← de centro a izquierda */
-  max-width: 800px; /* opcional, para que no ocupe todo el ancho */
+  text-align: left;
+  /* ← de centro a izquierda */
+  max-width: 800px;
+  /* opcional, para que no ocupe todo el ancho */
 }
-#resumen div {
-  margin: 4px 0; /* separación vertical entre años */
-}
+
 #resumen span {
   display: inline-block;
-  margin: 0 4px 2px 0; /* margen entre usuarios */
+  margin: 0 4px 2px 0;
+  /* margen entre usuarios */
 }
 
 /* Centra botones superiores */
@@ -186,9 +187,15 @@ select.multiselect {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   padding: 2rem;
   text-align: center;
+  width: 90%;
+  /* ocupa casi todo el ancho */
   max-width: 350px;
-  width: 100%;
+  /* límite superior */
+  margin: 0 auto;
+  /* centrar */
+  color: black;
 }
+
 
 #loading-overlay {
   position: fixed;
@@ -274,14 +281,116 @@ select.multiselect {
 .resum-year {
   color: white;
 }
- 
+
 /* En móviles: ocupa todo el ancho y más alto */
 @media (max-width: 576px) {
-    .monthtd {
-    height: 150px;
-  }   
-  #calendario {
-   padding: 0px;
+  .monthtd {
+    height: 70px;
   }
- 
+
+  #calendario {
+    padding: 0px;
+  }
+
+  .resum-year-total {
+    font-size: 13px;
+  }
+}
+
+.google-btn-wrapper {
+  width: 100%;
+  max-width: 320px;
+  /* opcional, para que no se pase de tamaño */
+  margin: 0 auto;
+  /* centrar */
+}
+
+.resum-year-total {
+  color: #000;
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.divider-resum {
+  border-bottom: 2px solid #555;
+  margin: 8px 0;
+}
+
+/* Aumentar tamaño de los checkboxes dentro del multi-menu */
+.multi-menu .form-check-input {
+  transform: scale(1.6);
+  /* Tamaño más grande */
+  margin-right: 0.5rem;
+}
+
+/* Alinear mejor el texto con los checkboxes más grandes */
+.multi-menu .form-check-label {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.option-user {
+  padding: 10px;
+}
+
+.multi-menu {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222;
+  color: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 5000;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  display: none;
+  /* sigue oculto por defecto */
+}
+
+.comentario-dia:empty:before {
+  content: attr(placeholder);
+  color: #888;
+  /* color del placeholder */
+  pointer-events: none;
+}
+
+.multi-menu .close-menu {
+  position: absolute;
+  top: -4px;
+  right: 5px;
+  color: white;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+#popup-dias {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222;
+  color: white;
+  padding: 30px;
+  border-radius: 1rem;
+  z-index: 9999;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+#popup-close {
+  position: absolute;
+  top: -12px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 33px;
+  cursor: pointer;
 }
