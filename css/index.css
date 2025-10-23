@@ -295,6 +295,10 @@ select.multiselect {
   .resum-year-total {
     font-size: 13px;
   }
+
+  #calendar-title {
+    font-size: 25px;
+  }
 }
 
 .google-btn-wrapper {
@@ -393,4 +397,21 @@ select.multiselect {
   color: white;
   font-size: 33px;
   cursor: pointer;
+}
+
+.navbar-toggler {
+  background-color: white !important;
+}
+
+#navbarMenu .nav-item {
+  padding: 10px !important;
+}
+
+.btn-close-black {
+  background-color: white; /* Fondo blanco */
+}
+
+.navbar{
+    position: absolute !important;
+    right: -3px !important;
 }

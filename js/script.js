@@ -344,6 +344,23 @@ function saveCalendarData() {
 }
 
 $(document).ready(function () {
+  // Mostrar leyenda
+  $("#menu-legend").on("click", function (e) {
+    e.preventDefault();
+    $("#legend-content").toggle();
+  });
+
+  // Cerrar leyenda
+  $("#legend-close").on("click", function () {
+    $("#legend-content").hide();
+  });
+
+  // Imprimir PDF
+  $("#menu-print").on("click", function (e) {
+    e.preventDefault();
+    window.print();
+  });
+
   // Al hacer clic en un resumen de usuario
   $(document).on("click", ".resum-year-total", function (e) {
     const nombre = $(this).text().split(':')[0].trim(); // mantener nombre tal cual

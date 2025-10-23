@@ -16,6 +16,7 @@
     </div>
   </div>
 
+
   <div id="container-page">
 
     <div id="login-container-div" class="container vh-100 d-flex justify-content-center align-items-center">
@@ -39,7 +40,32 @@
 
     <!-- Contenido principal (oculto hasta login) -->
     <div id="app" style="display:none;">
-      <div class="d-flex justify-content-center align-items-center gap-2">
+      <!-- Navbar minimalista -->
+      <nav class="navbar p-0" style="background:transparent;">
+        <div class="container-fluid justify-content-end">
+          <!-- Botón hamburguesa -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Menú desplegable -->
+          <div class="collapse navbar-collapse" id="navbarMenu"
+            style="position:absolute; top:50px; right:10px; background:#222; border-radius:6px; min-width:150px; box-shadow:0 2px 6px rgba(0,0,0,0.5);">
+            <ul class="navbar-nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#" id="menu-legend">Leyenda colores</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#" id="menu-print">Imprimir</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+      <div id="title-calendar" class="d-flex justify-content-start justify-content-md-center align-items-center gap-2">
         <h1 id="calendar-title" class="mb-0">Calendario</h1>
         <span class="small">v1.0</span>
       </div>
@@ -56,12 +82,17 @@
         <input type="file" id="importarFile" style="display:none" accept=".json">
       </div>
 
-      <!-- Leyenda flotante colapsable -->
-      <div id="legend-container">
-        <button id="legend-toggle" class="btn btn-sm btn-warning">?</button>
-        <div id="legend-content" style="display:none; text-align: left;
-       background:#222; color:#fff; padding:10px; border-radius:6px; 
-       margin-top:5px; min-width:200px; box-shadow:0 2px 6px rgba(0,0,0,0.5);">
+      <!-- Leyenda flotante con botón de cierre -->
+      <div id="legend-content" style="display:none; position:fixed; top:60px; right:10px; 
+    background:#222; color:#fff; padding:10px; border-radius:6px; min-width:220px; 
+    box-shadow:0 2px 6px rgba(0,0,0,0.5); z-index:1050;">
+        <!-- <div class="d-flex justify-content-end">
+          <button type="button" class="btn-close btn-close-black rounded-circle p-2" aria-label="Close"></button>
+        </div> -->
+        <button id="legend-close" class="btn btn-sm btn-danger" style="float:right;">×</button>
+
+
+        <div style="clear:both; margin-top:10px;">
           <div style="display: table-row;">
             <div style="display: table-cell; width:20px; background:#f99; border-radius:3px;">&nbsp;</div>
             <div style="display: table-cell; padding-left:8px;">Festivo Estatal</div>
@@ -80,14 +111,16 @@
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
 
   <div id="popup-dias" style="display:none; ">
-    <button id="popup-close" >×</button>
+    <button id="popup-close">×</button>
     <h4 id="popup-title" style="text-align:center; margin-bottom:1rem;">Días de la persona</h4>
     <ul id="popup-list"></ul>
-</div>
+  </div>
 
 
   <script src="js/jquery-3.6.0.min.js"></script>
