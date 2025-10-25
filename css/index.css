@@ -111,11 +111,6 @@ td {
   border-radius: 2px;
 }
 
-.festivo {
-  background: rgba(255, 0, 0, 0.25);
-  border-color: rgba(255, 0, 0, 0.5);
-}
-
 /* ===== Botón "+" ===== */
 .add-btn {
   opacity: 0;
@@ -238,18 +233,23 @@ select.multiselect {
 }
 
 
+.vacaciones-ninos {
+  background: rgb(255 60 60 / 25%) !important;
+  /* border-color: rgba(255, 0, 0, 0.5); */
+}
+
 .festivo-estatal {
-  background-color: #f99;
+  background-color: #0f0f47;
 }
 
 /* rojo claro */
 .festivo-autonomico {
-  background-color: #2f6e2f;
+  background-color: #333a94;
 }
 
 /* verde claro */
 .festivo-local {
-  background-color: #35357e;
+  background-color: rgb(94, 89, 138);
 }
 
 /* azul claro */
@@ -293,7 +293,7 @@ select.multiselect {
   }
 
   .resum-year-total {
-    font-size: 13px;
+    font-size: 13px;    
   }
 
   #calendar-title {
@@ -313,6 +313,7 @@ select.multiselect {
   color: #000;
   border-radius: 4px;
   padding: 2px 5px;
+  cursor: pointer;
 }
 
 .divider-resum {
@@ -403,6 +404,19 @@ select.multiselect {
   background-color: white !important;
 }
 
+
+#navbarMenu {
+    position: static;
+    top: 50px;
+    right: 10px;
+    background: rgb(34, 34, 34);
+    border-radius: 6px;
+    min-width: 150px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 6px;
+    /* width: 150px; */
+    z-index: 999999; 
+}
+
 #navbarMenu .nav-item {
   padding: 10px !important;
 }
@@ -414,4 +428,8 @@ select.multiselect {
 .navbar{
     position: absolute !important;
     right: -3px !important;
+}
+
+#popup-title{
+  font-size: 20px;
 }

@@ -1,0 +1,33 @@
+[
+  {
+    "binId": "68eeb64e43b1c97be9682041",
+    "created": "2025-10-16",
+    "users": [
+      {
+        "key": "scascalesp@gmail.com",
+        "permisions": [
+          "read",
+          "write"
+        ]
+      },
+      {
+        "key": "ker.rojas@gmail.com",
+        "permisions": [
+          "read"
+        ]
+      }
+    ]
+  },
+  {
+    "binId": "72fbb64e43b1c97be9682099",
+    "created": "2025-10-15",
+    "users": [
+      {
+        "key": "otra.persona@gmail.com",
+        "permisions": [
+          "read"
+        ]
+      }
+    ]
+  }
+]

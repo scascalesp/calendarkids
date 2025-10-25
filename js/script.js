@@ -28,6 +28,7 @@ function ajustarAlturaTextareas($context) {
 // =====================
 // Generar calendario completo
 // =====================
+
 function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
   const fechaInicio = new Date(fechaInicioStr);
   const fechaFin = new Date(fechaFinStr);
@@ -36,7 +37,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
 
   let y = fechaInicio.getFullYear();
   let m = fechaInicio.getMonth();
-
+  
   while (y < fechaFin.getFullYear() || (y === fechaFin.getFullYear() && m <= fechaFin.getMonth())) {
     const primerDia = new Date(y, m, 1);
     const ultimoDia = new Date(y, m + 1, 0);
@@ -67,6 +68,9 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
         } else if (festivoObj.festivo_local) {
           claseFestivo = "festivo-local";
           tooltip = "Festivo Local";
+        } else if (festivoObj.vacaciones_ninos) {
+          claseFestivo = "vacaciones-ninos";
+          tooltip = "Vacaciones Niños";
         }
       }
 
@@ -74,9 +78,11 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
       const diaSemanaReal = new Date(y, m, d).getDay();
       const claseFinDeSemana = (diaSemanaReal === 6 || diaSemanaReal === 0) ? "fin-de-semana" : "";
 
-      const festivo = festivoObj && (festivoObj.festivo_estatal || festivoObj.festivo_local);
+      const festivo = festivoObj && (festivoObj.festivo_estatal || festivoObj.festivo_local || festivoObj.festivo_autonomico);
+      const vacacionesNinos = festivoObj && (festivoObj.vacaciones_ninos);
 
-      html += `<td title="${tooltip}" class="monthtd ${claseFestivo} ${claseFinDeSemana} ${festivo ? 'festivo' : ''}" data-fecha="${fecha}">
+      html += `<td title="${tooltip}" class="monthtd ${claseFestivo} ${claseFinDeSemana} 
+        ${festivo ? 'festivo' : ''} ${vacacionesNinos ? 'vacaciones-ninos' : ''}" data-fecha="${fecha}">
         <div>${d}</div>
         <div class="asignados"></div>
         <button class="btn btn-sm btn-secondary add-btn mt-1">+</button>
@@ -246,8 +252,6 @@ function actualizarDia($td, data = { users: [], comment: "" }) {
   actualizarResumen();
 }
 
-
-
 function onUserDataChangeCalendar() {
   // Recorre cada celda y actualiza los días
   $(".mes td").each(function () {
@@ -269,9 +273,27 @@ function onUserDataChangeCalendar() {
 // =====================
 function actualizarResumen() {
   const resumenPorAnio = {};
+  const totalVacacionesNinosPorAnio = {};
+  const diasVacNinosConUsuariosPorAnio = {};
 
+  // 🔹 Contar total de días de vacaciones niños por año
+  calendarHolidays.forEach(festivo => {
+    if (festivo.vacaciones_ninos) {
+      const anio = new Date(festivo.fecha).getFullYear();
+      totalVacacionesNinosPorAnio[anio] = (totalVacacionesNinosPorAnio[anio] || 0) + 1;
+    }
+  });
+
+  // 🔹 Contar días de vacaciones niños con al menos un usuario
   for (const fecha in datesSeted) {
     const data = datesSeted[fecha];
+    const festivoObj = calendarHolidays.find(f => f.fecha === fecha);
+    if (festivoObj?.vacaciones_ninos && data.users.length > 0) {
+      const anio = new Date(fecha).getFullYear();
+      diasVacNinosConUsuariosPorAnio[anio] = (diasVacNinosConUsuariosPorAnio[anio] || 0) + 1;
+    }
+
+    // Contar días por usuario
     const anio = new Date(fecha).getFullYear();
     if (!resumenPorAnio[anio]) resumenPorAnio[anio] = {};
     data.users.forEach(nombre => {
@@ -281,21 +303,24 @@ function actualizarResumen() {
   }
 
   let html = "";
-  const anios = Object.keys(resumenPorAnio);
+  const anios = Array.from(new Set([...Object.keys(resumenPorAnio), ...Object.keys(totalVacacionesNinosPorAnio)])).sort();
+
   anios.forEach((anio, index) => {
-    const usuarios = Object.entries(resumenPorAnio[anio])
+    const usuarios = Object.entries(resumenPorAnio[anio] || {})
       .map(([nombre, dias]) => {
         const u = availableCalendarUsers.find(x => x.nombre === nombre);
         const color = u ? u.color : "#fff";
         return `<span class="resum-year-total" style="background:${color};">
-                ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
-              </span>`;
+                  ${nombre}: ${dias} día${dias > 1 ? 's' : ''}
+                </span>`;
       })
       .join("");
 
-    html += `<div><strong class="resum-year">${anio}:</strong> ${usuarios}</div>`;
+    const diasConUsuarios = diasVacNinosConUsuariosPorAnio[anio] || 0;
+    const totalDias = totalVacacionesNinosPorAnio[anio] || 0;
 
-    // Solo poner <hr> si NO es el último año
+    html += `<div><strong class="resum-year">${anio} (asignados ${diasConUsuarios}/${totalDias}):</strong> ${usuarios}</div>`;
+
     if (index < anios.length - 1) {
       html += "<div class='divider-resum'></div>";
     }
@@ -303,6 +328,8 @@ function actualizarResumen() {
 
   $("#resumen").html(html);
 }
+
+
 
 function loadCalendarData(calendarDataObject) {
   // debugger;
@@ -361,6 +388,42 @@ $(document).ready(function () {
     window.print();
   });
 
+  // Exportar calendario
+  $("#menu-export").on("click", function (e) {
+    e.preventDefault();
+    const dataStr = JSON.stringify(calendarData);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `calendarData_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Importar calendario
+  $("#menu-import").on("click", function (e) {
+    e.preventDefault();
+    $("#importarFile").click();
+  });
+
+  $("#importarFile").on("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      try {
+        calendarData = JSON.parse(evt.target.result);
+        if (!calendarData || typeof calendarData !== 'object') throw new Error("Invalid JSON");
+        loadCalendarData(calendarData);
+        alert("importación completada");
+      } catch (err) {
+        alert("Archivo JSON inválido");
+      }
+    };
+    reader.readAsText(file);
+  });
+
   // Al hacer clic en un resumen de usuario
   $(document).on("click", ".resum-year-total", function (e) {
     const nombre = $(this).text().split(':')[0].trim(); // mantener nombre tal cual
@@ -414,38 +477,6 @@ $(document).ready(function () {
 
   $("#legend-toggle").on("click", function () {
     $("#legend-content").toggle();
-  });
-
-  $("#exportar").on("click", function () {
-    const dataStr = JSON.stringify(calendarData);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `calendarData_${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  $("#importar").on("click", function () {
-    $("#importarFile").click();
-  });
-
-  $("#importarFile").on("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function (evt) {
-      try {
-        calendarData = JSON.parse(evt.target.result);
-        if (!calendarData || typeof calendarData !== 'object') throw new Error("Invalid JSON");
-        loadCalendarData(calendarData);
-        alert("importación completada");
-      } catch (err) {
-        alert("Archivo JSON inválido");
-      }
-    };
-    reader.readAsText(file);
   });
 
   setTimeout(() => {
