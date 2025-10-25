@@ -90,15 +90,12 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
         <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
           <button class="close-menu">×</button>
           <h5 style="color:white;text-align:center;">${fecha}</h5>
-         ${availableCalendarUsers.map(u => `
-          <div class="form-check text-start option-user">
-            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
-            <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
-              ${u.imgUrl && u.imgUrl.trim() !== "" 
-                ? `<img src="${u.imgUrl}" class="inicial-img" alt="${u.nombre}">` 
-                : `<span class="inicial" style="background:${u.color}">${u.inicial}</span>`} 
-            </label>
-          </div>`).join('')}
+          ${availableCalendarUsers.map(u => `
+            <div class="form-check text-start option-user">
+              <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
+              <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
+               ${u.imgUrl ? `&nbsp;<img src="${u.imgUrl}" class="inicial-img" alt="${u.nombre}">` : ""}
+            </div>`).join('')}
             
           <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
           <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
