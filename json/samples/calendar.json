@@ -230,131 +230,460 @@
     {
       "nombre": "Madre",
       "inicial": "M",
-      "color": "#ff7f7f"
+      "color": "#ff7f7f",
+      "imgUrl": ""
     },
     {
       "nombre": "Padre",
       "inicial": "P",
-      "color": "#7fbfff"
+      "color": "#7fbfff",
+      "imgUrl": ""
     },
     {
       "nombre": "Abuela Paqui",
       "inicial": "Pa",
-      "color": "#ffd27f"
+      "color": "#ffd27f",
+      "imgUrl": ""
     },
     {
       "nombre": "Abuela Kerly",
       "inicial": "K",
-      "color": "#b27fff"
+      "color": "#b27fff",
+      "imgUrl": ""
+    },
+    {
+      "nombre": "Casal escolar",
+      "inicial": "C1",
+      "color": "#b27fff",
+      "imgUrl": "https://www.soyvisual.org/sites/default/files/images/photos/dep_0002.jpg"
+    },
+    {
+      "nombre": "Casal extraescolar",
+      "inicial": "C2",
+      "color": "#7fffbf",
+      "imgUrl": ""
     }
   ],
-"calendarHolidays": [
-  { "fecha": "2025-01-01", "festivo_estatal": 1 },
-  { "fecha": "2025-01-06", "festivo_estatal": 1 },
-  { "fecha": "2025-04-18", "festivo_estatal": 1 },
-  { "fecha": "2025-04-21", "festivo_autonomico": 1 },
-  { "fecha": "2025-05-01", "festivo_estatal": 1 },
-  { "fecha": "2025-06-09", "festivo_local": 1 },
-  { "fecha": "2025-06-24", "festivo_autonomico": 1 },
-  { "fecha": "2025-08-15", "festivo_estatal": 1 },
-  { "fecha": "2025-09-11", "festivo_autonomico": 1 },
-  { "fecha": "2025-09-24", "festivo_local": 1 },
-  { "fecha": "2025-10-12", "festivo_estatal": 1 },
-  { "fecha": "2025-10-31", "vacaciones_ninos": 1 },
-  { "fecha": "2025-11-01", "festivo_estatal": 1 },
-  { "fecha": "2025-11-03", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-06", "festivo_estatal": 1 },
-  { "fecha": "2025-12-08", "festivo_estatal": 1 },
-  { "fecha": "2025-12-22", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-23", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-24", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-25", "festivo_estatal": 1 },
-  { "fecha": "2025-12-26", "festivo_autonomico": 1 },
-  { "fecha": "2025-12-29", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-30", "vacaciones_ninos": 1 },
-  { "fecha": "2025-12-31", "vacaciones_ninos": 1 },
-  { "fecha": "2026-01-01", "festivo_estatal": 1 },
-  { "fecha": "2026-01-02", "vacaciones_ninos": 1 },
-  { "fecha": "2026-01-05", "vacaciones_ninos": 1 },
-  { "fecha": "2026-01-06", "festivo_estatal": 1 },
-  { "fecha": "2026-01-07", "vacaciones_ninos": 1 },
-  { "fecha": "2026-02-16", "vacaciones_ninos": 1 },
-  { "fecha": "2026-03-30", "vacaciones_ninos": 1 },
-  { "fecha": "2026-03-31", "vacaciones_ninos": 1 },
-  { "fecha": "2026-04-01", "vacaciones_ninos": 1 },
-  { "fecha": "2026-04-02", "vacaciones_ninos": 1 },
-  { "fecha": "2026-04-03", "festivo_estatal": 1 },
-  { "fecha": "2026-04-06", "festivo_autonomico": 1 },  
-  { "fecha": "2026-04-30", "vacaciones_ninos": 1 },
-  { "fecha": "2026-05-01", "festivo_estatal": 1 },
-  { "fecha": "2026-05-22", "vacaciones_ninos": 1 },
-  { "fecha": "2026-05-25", "festivo_local": 1 },
-  { "fecha": "2026-05-26", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-22", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-23", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-24", "festivo_autonomico": 1 },
-  { "fecha": "2026-06-25", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-26", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-29", "vacaciones_ninos": 1 },
-  { "fecha": "2026-06-30", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-01", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-02", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-03", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-06", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-07", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-08", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-09", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-10", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-13", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-14", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-15", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-16", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-17", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-20", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-21", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-22", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-23", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-24", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-27", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-28", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-29", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-30", "vacaciones_ninos": 1 },
-  { "fecha": "2026-07-31", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-03", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-04", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-05", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-06", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-07", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-10", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-11", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-12", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-13", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-14", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-15", "festivo_estatal": 1 },
-  { "fecha": "2026-08-17", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-18", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-19", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-20", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-21", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-24", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-25", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-26", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-27", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-28", "vacaciones_ninos": 1 },
-  { "fecha": "2026-08-31", "vacaciones_ninos": 1 },
-  { "fecha": "2026-09-01", "vacaciones_ninos": 1 },
-  { "fecha": "2026-09-02", "vacaciones_ninos": 1 },
-  { "fecha": "2026-09-03", "vacaciones_ninos": 1 },
-  { "fecha": "2026-09-04", "vacaciones_ninos": 1 },
-  { "fecha": "2026-09-11", "festivo_autonomico": 1 },
-  { "fecha": "2026-09-24", "festivo_local": 1 },
-  { "fecha": "2026-10-12", "festivo_estatal": 1 },
-  { "fecha": "2026-11-01", "festivo_estatal": 1 },
-  { "fecha": "2026-12-06", "festivo_estatal": 1 },
-  { "fecha": "2026-12-08", "festivo_estatal": 1 },
-  { "fecha": "2026-12-25", "festivo_estatal": 1 },
-  { "fecha": "2026-12-26", "festivo_autonomico": 1 }
-]
-
-
+  "calendarHolidays": [
+    {
+      "fecha": "2025-01-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-01-06",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-04-18",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-04-21",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2025-05-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-06-09",
+      "festivo_local": 1
+    },
+    {
+      "fecha": "2025-06-24",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2025-08-15",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-09-11",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2025-09-24",
+      "festivo_local": 1
+    },
+    {
+      "fecha": "2025-10-12",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-10-31",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-11-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-11-03",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-06",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-12-08",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-12-22",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-23",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-24",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-25",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2025-12-26",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2025-12-29",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-30",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2025-12-31",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-01-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-01-02",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-01-05",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-01-06",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-01-07",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-02-16",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-03-30",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-03-31",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-04-01",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-04-02",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-04-03",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-04-06",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2026-04-30",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-05-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-05-22",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-05-25",
+      "festivo_local": 1
+    },
+    {
+      "fecha": "2026-05-26",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-22",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-23",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-24",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2026-06-25",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-26",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-29",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-06-30",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-01",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-02",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-03",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-06",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-07",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-08",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-09",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-10",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-13",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-14",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-15",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-16",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-17",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-20",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-21",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-22",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-23",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-24",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-27",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-28",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-29",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-30",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-07-31",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-03",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-04",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-05",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-06",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-07",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-10",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-11",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-12",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-13",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-14",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-15",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-08-17",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-18",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-19",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-20",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-21",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-24",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-25",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-26",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-27",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-28",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-08-31",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-09-01",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-09-02",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-09-03",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-09-04",
+      "vacaciones_ninos": 1
+    },
+    {
+      "fecha": "2026-09-11",
+      "festivo_autonomico": 1
+    },
+    {
+      "fecha": "2026-09-24",
+      "festivo_local": 1
+    },
+    {
+      "fecha": "2026-10-12",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-11-01",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-12-06",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-12-08",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-12-25",
+      "festivo_estatal": 1
+    },
+    {
+      "fecha": "2026-12-26",
+      "festivo_autonomico": 1
+    }
+  ]
 }

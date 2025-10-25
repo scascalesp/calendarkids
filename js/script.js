@@ -90,11 +90,15 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
         <div class="multi-menu card p-2 menu-ext" style="display:none; position:absolute; z-index:10; background:#222;">
           <button class="close-menu">×</button>
           <h5 style="color:white;text-align:center;">${fecha}</h5>
-          ${availableCalendarUsers.map(u => `
-            <div class="form-check text-start option-user">
-              <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
-              <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}" style="color:${u.color}">${u.nombre}</label>
-            </div>`).join('')}
+         ${availableCalendarUsers.map(u => `
+          <div class="form-check text-start option-user">
+            <input class="form-check-input chkUser" type="checkbox" value="${u.nombre}" id="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
+            <label class="form-check-label" for="${fecha}-${u.nombre.replace(/\s+/g, '_')}">
+              ${u.imgUrl && u.imgUrl.trim() !== "" 
+                ? `<img src="${u.imgUrl}" class="inicial-img" alt="${u.nombre}">` 
+                : `<span class="inicial" style="background:${u.color}">${u.inicial}</span>`} 
+            </label>
+          </div>`).join('')}
             
           <div class="form-control mt-2 comentario-dia" contentEditable="true" placeholder="Añadir comentario..." style="min-height: 2em; overflow:auto;"></div>
           <button class="btn btn-sm btn-success mt-2 btn-hecho">Hecho</button>
@@ -237,7 +241,17 @@ function actualizarDia($td, data = { users: [], comment: "" }) {
 
   seleccionados.forEach(nombre => {
     const u = availableCalendarUsers.find(x => x.nombre === nombre);
-    if (u) $contenedor.append(`<span class="inicial" style="background:${u.color}">${u.inicial}</span>`);
+    if (u) {
+      if (u.imgUrl && u.imgUrl.trim() !== "") {
+        // Mostrar imagen redonda
+        $contenedor.append(`
+          <img src="${u.imgUrl}" alt="${u.nombre}" class="inicial-img">
+        `);
+      } else {
+        // Mostrar inicial con color
+        $contenedor.append(`<span class="inicial" style="background:${u.color}">${u.inicial}</span>`);
+      }
+    }
   });
 
   // Actualizar div oculto con el comentario
@@ -251,6 +265,7 @@ function actualizarDia($td, data = { users: [], comment: "" }) {
 
   actualizarResumen();
 }
+
 
 function onUserDataChangeCalendar() {
   // Recorre cada celda y actualiza los días

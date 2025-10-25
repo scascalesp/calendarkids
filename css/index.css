@@ -451,3 +451,13 @@ select.multiselect {
 #popup-title{
   font-size: 20px;
 }
+
+.inicial-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 5px;
+  /* vertical-align: middle;
+  border: 1px solid #fff; */
+}
