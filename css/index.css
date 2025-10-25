@@ -301,6 +301,24 @@ select.multiselect {
   }
 }
 
+@media print {
+  body, table, td, th {
+    -webkit-print-color-adjust: exact !important; /* Chrome, Safari */
+    color-adjust: exact !important;              /* Firefox */
+    background-color: initial !important;
+  }
+
+  .resum-year,.resum-year-total {    color: black !important;  }
+  /* Forzar colores de tus clases importantes */
+  .mes { background: #1c1c1c !important; }
+  .mes h2 { background: #503685 !important; color: #fff !important; }
+  .monthtd { border-color: white !important; }
+  .vacaciones-ninos { background: rgb(255 60 60 / 25%) !important; }
+  .festivo-estatal { background-color: #0f0f47 !important; }
+  .festivo-autonomico { background-color: #333a94 !important; }
+  .festivo-local { background-color: rgb(94, 89, 138) !important; }
+}
+
 .google-btn-wrapper {
   width: 100%;
   max-width: 320px;
