@@ -37,7 +37,7 @@ function generarCalendarioRango(fechaInicioStr, fechaFinStr) {
 
   let y = fechaInicio.getFullYear();
   let m = fechaInicio.getMonth();
-  
+
   while (y < fechaFin.getFullYear() || (y === fechaFin.getFullYear() && m <= fechaFin.getMonth())) {
     const primerDia = new Date(y, m, 1);
     const ultimoDia = new Date(y, m + 1, 0);
@@ -385,6 +385,13 @@ $(document).ready(function () {
   // Imprimir PDF
   $("#menu-print").on("click", function (e) {
     e.preventDefault();
+
+    // Cerrar el menú si está abierto
+    const bsCollapse = bootstrap.Collapse.getInstance(document.getElementById('navbarMenu'));
+    if (bsCollapse) {
+      bsCollapse.hide();
+    }
+
     window.print();
   });
 
