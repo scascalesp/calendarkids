@@ -224,6 +224,18 @@
         "Abuela Kerly"
       ],
       "comment": ""
+    },
+    "2026-07-06": {
+      "users": [
+        "Casal extraescolar"
+      ],
+      "comment": ""
+    },
+    "2026-07-07": {
+      "users": [
+        "Casal escolar"
+      ],
+      "comment": ""
     }
   },
   "availableCalendarUsers": [
@@ -231,13 +243,15 @@
       "nombre": "Madre",
       "inicial": "M",
       "color": "#ff7f7f",
-      "imgUrl": ""
+      "imgUrl": "",
+      "dias_vacaciones": 23
     },
     {
       "nombre": "Padre",
       "inicial": "P",
       "color": "#7fbfff",
-      "imgUrl": ""
+      "imgUrl": "",
+      "dias_vacaciones": 23
     },
     {
       "nombre": "Abuela Paqui",
@@ -247,7 +261,7 @@
     },
     {
       "nombre": "Abuela Kerly",
-      "inicial": "K",
+      "inicial": "Ke",
       "color": "#b27fff",
       "imgUrl": ""
     },
@@ -255,7 +269,7 @@
       "nombre": "Casal escolar",
       "inicial": "C1",
       "color": "#b27fff",
-      "imgUrl": "https://www.soyvisual.org/sites/default/files/images/photos/dep_0002.jpg"
+      "imgUrl": "/img/ballon.jpg"
     },
     {
       "nombre": "Casal extraescolar",
