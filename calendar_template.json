@@ -1,0 +1,120 @@
+{
+  "user": "scascalesp@gmail.com",
+  "calendarStart": "2026-09-01",
+  "calendarEnd": "2027-09-01",
+  "calendarTitle": "Calendario 2026-2027",  
+  "availableCalendarUsers": [
+    {
+      "nombre": "Madre",
+      "inicial": "M",
+      "color": "#ff7f7f",
+      "imgUrl": "",
+      "dias_vacaciones": 23
+    },
+    {
+      "nombre": "Padre",
+      "inicial": "P",
+      "color": "#7fbfff",
+      "imgUrl": "",
+      "dias_vacaciones": 23
+    },
+    {
+      "nombre": "Abuela Paqui",
+      "inicial": "Pa",
+      "color": "#ffd27f",
+      "imgUrl": ""
+    },
+    {
+      "nombre": "Abuela Kerly",
+      "inicial": "Ke",
+      "color": "#b27fff",
+      "imgUrl": ""
+    },
+    {
+      "nombre": "Casal escolar",
+      "inicial": "C1",
+      "color": "#b27fff",
+      "imgUrl": "/img/ballon.jpg"
+    },
+    {
+      "nombre": "Casal extraescolar",
+      "inicial": "C2",
+      "color": "#7fffbf",
+      "imgUrl": ""
+    }
+  ],
+ "calendarHolidays": [
+  {
+    "fecha": "2026-09-11",
+    "festivo_autonomico": 1
+  },
+  {
+    "fecha": "2026-09-24",
+    "festivo_local": 1
+  },
+  {
+    "fecha": "2026-10-12",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2026-11-01",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2026-12-06",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2026-12-08",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2026-12-25",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2026-12-26",
+    "festivo_autonomico": 1
+  },
+  {
+    "fecha": "2027-01-01",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2027-01-06",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2027-03-26",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2027-03-29",
+    "festivo_autonomico": 1
+  },
+  {
+    "fecha": "2027-05-01",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2027-05-17",
+    "festivo_local": 1
+  },
+  {
+    "fecha": "2027-06-24",
+    "festivo_autonomico": 1
+  },
+  {
+    "fecha": "2027-08-15",
+    "festivo_estatal": 1
+  },
+  {
+    "fecha": "2027-09-11",
+    "festivo_autonomico": 1
+  },
+  {
+    "fecha": "2027-09-24",
+    "festivo_local": 1
+  }
+]
+}
