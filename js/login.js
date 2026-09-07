@@ -2,7 +2,7 @@
 // CONFIG
 // ----------------------------
 const API_KEY = "$2a$10$xVvyPoFrdc3vTXMTamVNp.M.fJK2JwhXSSH1s5AizCX7RzCg8DNGC";
-const BIN_ID_MAESTRO = "68f15d87d0ea881f40a6f4cf"; // Bin configuración maestro
+const BIN_ID_MAESTRO = "68f15d87d0ea881f40a6f4cf"; // Bin configuración maestro. Dentro del bin maestro se pone el bin de los calendarios
 var binId = null; // Bin del usuario (se asigna al crear bin o al loguearse)
 /** @type {BinData} */
 var calendarData = null; // Datos del bin del usuario
