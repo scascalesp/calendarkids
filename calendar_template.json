@@ -44,77 +44,41 @@
     }
   ],
  "calendarHolidays": [
-  {
-    "fecha": "2026-09-11",
-    "festivo_autonomico": 1
-  },
-  {
-    "fecha": "2026-09-24",
-    "festivo_local": 1
-  },
-  {
-    "fecha": "2026-10-12",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2026-11-01",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2026-12-06",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2026-12-08",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2026-12-25",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2026-12-26",
-    "festivo_autonomico": 1
-  },
-  {
-    "fecha": "2027-01-01",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2027-01-06",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2027-03-26",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2027-03-29",
-    "festivo_autonomico": 1
-  },
-  {
-    "fecha": "2027-05-01",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2027-05-17",
-    "festivo_local": 1
-  },
-  {
-    "fecha": "2027-06-24",
-    "festivo_autonomico": 1
-  },
-  {
-    "fecha": "2027-08-15",
-    "festivo_estatal": 1
-  },
-  {
-    "fecha": "2027-09-11",
-    "festivo_autonomico": 1
-  },
-  {
-    "fecha": "2027-09-24",
-    "festivo_local": 1
-  }
+  { "fecha": "2026-09-11", "festivo_autonomico": 1 },
+  { "fecha": "2026-09-24", "festivo_local": 1 },
+  { "fecha": "2026-10-12", "festivo_estatal": 1 },
+  { "fecha": "2026-11-01", "festivo_estatal": 1 },
+  { "fecha": "2026-12-06", "festivo_estatal": 1 },
+  { "fecha": "2026-12-08", "festivo_estatal": 1 },
+  { "fecha": "2026-12-25", "festivo_estatal": 1 },
+  { "fecha": "2026-12-26", "festivo_autonomico": 1 },
+  { "fecha": "2027-01-01", "festivo_estatal": 1 },
+  { "fecha": "2027-01-06", "festivo_estatal": 1 },
+  { "fecha": "2027-03-26", "festivo_estatal": 1 },
+  { "fecha": "2027-03-29", "festivo_autonomico": 1 },
+  { "fecha": "2027-05-01", "festivo_estatal": 1 },
+  { "fecha": "2027-05-17", "festivo_local": 1 },
+  { "fecha": "2027-06-24", "festivo_autonomico": 1 },
+  { "fecha": "2027-08-15", "festivo_estatal": 1 },
+  { "fecha": "2027-09-11", "festivo_autonomico": 1 },
+  { "fecha": "2027-09-24", "festivo_local": 1 },
+  { "fecha": "2026-01-08", "vacaciones_ninos": 1 },
+  { "fecha": "2026-04-30", "vacaciones_ninos": 1 },
+  { "fecha": "2026-10-30", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-07", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-22", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-23", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-24", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-28", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-29", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-30", "vacaciones_ninos": 1 },
+  { "fecha": "2026-12-31", "vacaciones_ninos": 1 },
+  { "fecha": "2027-01-04", "vacaciones_ninos": 1 },
+  { "fecha": "2027-01-05", "vacaciones_ninos": 1 },
+  { "fecha": "2027-01-07", "vacaciones_ninos": 1 },
+  { "fecha": "2027-03-22", "vacaciones_ninos": 1 },
+  { "fecha": "2027-03-23", "vacaciones_ninos": 1 },
+  { "fecha": "2027-03-24", "vacaciones_ninos": 1 },
+  { "fecha": "2027-03-25", "vacaciones_ninos": 1 }
 ]
 }
