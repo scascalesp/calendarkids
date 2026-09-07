@@ -4,3 +4,8 @@
  - Crea sun nuevo bin 'calendar' (algunos no tienen nombre pq no recuerdo como poner) y pegas la nueva plantilla 
  - en bin users le pones el bind id del nuevo año en "binId": "6a9e6c39ac6210605aae97b0"
  - Entrra en https://scascalesp.github.io/calendarkids/
+- las vacaciones de los crios se pone en  "calendarHolidays": [ como:
+   {
+      "fecha": "2026-07-28",
+      "vacaciones_ninos": 1
+    },
