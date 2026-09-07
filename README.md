@@ -5,10 +5,8 @@
  - en bin users le pones el bind id del nuevo año en "binId": "6a9e6c39ac6210605aae97b0"
  - Entrra en https://scascalesp.github.io/calendarkids/
 - las vacaciones de los crios se pone en  "calendarHolidays": [ como:
-   ```json{
-      "fecha": "2026-07-28",
-      "vacaciones_ninos": 1
-    },
+   ```json{   
+   { "fecha": "2026-07-28", "vacaciones_ninos": 1 },
    ```
 le puedes pasar la imagen a la ia y decir:
 'esto: ... es un nodo 
